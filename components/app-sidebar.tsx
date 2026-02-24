@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import SidebarFooterUser from "@/app/_components/sidebar/SidebarFooterUser";
+import { Logo } from "./ui/Logo";
 
 const tabs = [
   { name: "Dashboard", icon: LayoutDashboard, url: "/dashboard" },
@@ -29,17 +30,17 @@ const tabs = [
 
 export function AppSidebar() {
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" className={``}>
       {/* HEADER */}
-      <SidebarHeader>
+      <SidebarHeader className={`border border-r-0 h-12`}>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              className={`py-4.5 transition-colors duration-500 hover:bg-zinc-200 dark:hover:bg-zinc-800`}
+              className={`py-3.5 transition-colors duration-500 hover:bg-zinc-200 dark:hover:bg-zinc-800`}
               asChild
             >
-              <Link href={"/"}>
-                <Home />
+              <Link href={"/dashboard "}>
+                <Logo />
                 <span className={`font-medium`}>My Bedrock</span>
               </Link>
             </SidebarMenuButton>
@@ -47,12 +48,12 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarMenu className={`p-2`}>
+        <SidebarMenu className={`p-2 space-y-2`}>
           {tabs.map((tab) => (
             <SidebarMenuItem key={tab.name}>
               <SidebarMenuButton
                 asChild
-                className={`py-4.5 transition-colors duration-500 hover:bg-zinc-200 dark:hover:bg-zinc-800`}
+                className={`py-3.5 transition-colors duration-500 hover:bg-zinc-200 dark:hover:bg-zinc-800`}
               >
                 <Link href={tab.url}>
                   <tab.icon />

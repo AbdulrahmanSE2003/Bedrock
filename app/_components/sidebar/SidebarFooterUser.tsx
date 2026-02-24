@@ -19,24 +19,19 @@ import Image from "next/image";
 const SidebarFooterUser = async () => {
   const session = await auth();
   return (
-    <SidebarFooter className="pb-4">
+    <SidebarFooter className="p-2 border ">
       <SidebarMenu>
         <SidebarMenuItem>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton>
                 <div>
-                  {/* <User2 size={18} strokeWidth={1.5} /> */}
-                  <Image
-                    className={`rounded-full`}
-                    src={session?.user?.image || ""}
-                    alt="user image"
-                    width={28}
-                    height={28}
-                  />
+                  <User2 size={18} strokeWidth={1.5} />
                 </div>
                 <div className="flex flex-col items-start flex-1 ml-2 text-sm">
-                  <span className="font-medium leading-none">Abdulrahman</span>
+                  <span className="font-medium leading-none">
+                    {session?.user?.name}
+                  </span>
                   <span className="text-[11px] text-zinc-500 leading-none mt-1.5">
                     Free Plan
                   </span>
