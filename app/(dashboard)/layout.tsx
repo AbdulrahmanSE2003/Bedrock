@@ -2,10 +2,12 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import Navbar from "../_components/Navbar";
 import { SonnerToaster } from "../_components/SonnerToaster";
+import FloatingTimer from "./pomodoro/_components/FloatingTimer";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider defaultOpen={false}>
+      <FloatingTimer />
       <SonnerToaster />
       <AppSidebar />
       <div className={`flex flex-col w-full relative`}>
