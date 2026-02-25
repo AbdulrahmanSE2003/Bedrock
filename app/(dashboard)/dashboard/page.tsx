@@ -2,9 +2,10 @@ import CardHeading from "@/app/_components/CardHeading";
 import DigitalClock from "@/app/_components/DigitalClock";
 import GmailOverview from "@/app/_components/GmailOverview";
 import PageHeading from "@/app/_components/PageHeading";
+import PomodoroWidget from "@/app/_components/PomodoroWidget";
 import TimeProgress from "@/app/_components/TimeProgress";
 import { auth } from "@/auth";
-import { Command, Repeat2Icon, Timer } from "lucide-react";
+import { Command, Repeat2Icon } from "lucide-react";
 
 const page = async () => {
   const session = await auth();
@@ -25,11 +26,9 @@ const page = async () => {
         {/* Life Pace */}
         <TimeProgress />
 
-        <div
-          className={`max-md:min-h-100 bg-primary-foreground dark:-sidebar-border dark:shadow-zinc-800/25  shadow-zinc-300/50 shadow-lg border border-zinc-400/40 dark:border-zinc-600/50 rounded-xl p-6 h-64`}
-        >
-          <CardHeading Icon={Timer}>Focus Mode</CardHeading>
-        </div>
+        {/* Pomodoro Widget  */}
+        <PomodoroWidget />
+
         <div
           className={`max-md:min-h-100 bg-primary-foreground dark:-sidebar-border dark:shadow-zinc-800/25  shadow-zinc-300/50 shadow-lg border border-zinc-400/40 dark:border-zinc-600/50 rounded-xl p-6 h-64`}
         >
