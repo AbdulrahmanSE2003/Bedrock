@@ -7,7 +7,7 @@ import { Pause, Play, RotateCcw } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const Timer = () => {
-  const [mounted, setMounted] = useState(false); // لمنع أخطاء الـ Hydration
+  const [mounted, setMounted] = useState(false);
   const { minutes, seconds, isActive, tick, toggleActive, resetTimer } =
     usePomodoroStore();
 
