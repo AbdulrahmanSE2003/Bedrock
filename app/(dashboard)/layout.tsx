@@ -4,7 +4,7 @@ import Navbar from "../_components/Navbar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={false}>
       <AppSidebar />
       <div className={`flex flex-col w-full`}>
         <Navbar />

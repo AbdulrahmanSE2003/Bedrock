@@ -2,6 +2,7 @@ import CardHeading from "@/app/_components/CardHeading";
 import DigitalClock from "@/app/_components/DigitalClock";
 import TimeProgress from "@/app/_components/TimeProgress";
 import { auth } from "@/auth";
+import { Command, Inbox, Repeat2Icon, Terminal, Timer } from "lucide-react";
 
 const page = async () => {
   const session = await auth();
@@ -20,7 +21,7 @@ const page = async () => {
         <div
           className={`bg-sidebar-border dark:shadow-sidebar-border shadow-zinc-300/50 shadow-lg border border-zinc-400/40 dark:border-zinc-600/50 rounded-xl p-4 h-64 grow col-span-3`}
         >
-          <CardHeading>Progress-Bar</CardHeading>
+          <CardHeading Icon={Inbox}>Gmail Overview</CardHeading>
         </div>
         {/* Life Pace */}
         <TimeProgress />
@@ -28,7 +29,17 @@ const page = async () => {
         <div
           className={`bg-sidebar-border dark:shadow-sidebar-border shadow-zinc-300/50 shadow-lg border border-zinc-400/40 dark:border-zinc-600/50 rounded-xl p-4 h-64`}
         >
-          <CardHeading>Progress-Bar</CardHeading>
+          <CardHeading Icon={Timer}>Focus Mode</CardHeading>
+        </div>
+        <div
+          className={`bg-sidebar-border dark:shadow-sidebar-border shadow-zinc-300/50 shadow-lg border border-zinc-400/40 dark:border-zinc-600/50 rounded-xl p-4 h-64`}
+        >
+          <CardHeading Icon={Command}>Quick actions</CardHeading>
+        </div>
+        <div
+          className={`bg-sidebar-border dark:shadow-sidebar-border shadow-zinc-300/50 shadow-lg border border-zinc-400/40 dark:border-zinc-600/50 rounded-xl p-4 h-64 col-span-2`}
+        >
+          <CardHeading Icon={Repeat2Icon}>Daily Habits</CardHeading>
         </div>
       </div>
     </div>
