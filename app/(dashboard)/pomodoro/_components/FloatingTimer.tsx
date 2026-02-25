@@ -51,13 +51,7 @@ const FloatingTimer = () => {
 
   useEffect(() => {
     setMounted(true);
-
-    let interval: any;
-    if (isActive) {
-      interval = setInterval(() => tick(), 1000);
-    }
-    return () => clearInterval(interval);
-  }, [tick, isActive]);
+  }, []);
 
   if (!mounted || pathName === "/pomodoro" || pathName === "/dashboard")
     return null;

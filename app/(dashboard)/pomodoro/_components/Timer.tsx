@@ -18,11 +18,7 @@ const Timer = () => {
   // Timer Logic
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    if (isActive) {
-      interval = setInterval(() => tick(), 1000);
-    }
-    return () => clearInterval(interval);
-  }, [isActive, tick]);
+  }, []);
 
   if (!mounted) return null;
 
