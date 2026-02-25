@@ -40,7 +40,6 @@ export async function fetchRecentEmails() {
       return { id: msg.id, subject, from, snippet: detailData.snippet };
     }),
   );
-  console.log("From SERVER: ", emailDetails);
 
   return emailDetails;
 }
