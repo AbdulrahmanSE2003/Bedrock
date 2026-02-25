@@ -8,7 +8,7 @@ const Navbar = async () => {
   const session = await auth();
   return (
     <nav
-      className={`bg-sidebar w-full h-12 px-5 border flex items-center justify-between`}
+      className={`bg-sidebar w-full h-12 px-5 border border-l-0 flex items-center justify-between`}
     >
       <SidebarTrigger />
 

@@ -19,7 +19,7 @@ import Image from "next/image";
 const SidebarFooterUser = async () => {
   const session = await auth();
   return (
-    <SidebarFooter className="p-2 border ">
+    <SidebarFooter className="p-1  ">
       <SidebarMenu>
         <SidebarMenuItem>
           <DropdownMenu>
