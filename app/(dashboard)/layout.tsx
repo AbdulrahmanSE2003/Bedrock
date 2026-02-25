@@ -1,10 +1,12 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import Navbar from "../_components/Navbar";
+import { SonnerToaster } from "../_components/SonnerToaster";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider defaultOpen={false}>
+      <SonnerToaster />
       <AppSidebar />
       <div className={`flex flex-col w-full relative`}>
         <Navbar />
