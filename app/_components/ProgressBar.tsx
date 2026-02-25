@@ -18,9 +18,7 @@ const ProgressBar = ({ value, label }: ProgressBarProps) => {
           className={`bg-accent-foreground h-6 rounded-sm`}
         ></div>
       </div>
-      <span className={`text-[10px] font-medium`}>
-        {label}: {safeValue}%
-      </span>
+      <span className={`text-sm text-right font-medium`}>{label}</span>
     </div>
   );
 };

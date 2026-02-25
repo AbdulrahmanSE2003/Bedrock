@@ -1,6 +1,7 @@
 import { getProgress } from "@/lib/utils";
 import CardHeading from "./CardHeading";
 import ProgressBar from "./ProgressBar";
+import { Circle } from "lucide-react";
 
 const data = [
   { label: "Year", value: getProgress("year") },
@@ -12,7 +13,7 @@ const TimeProgress = () => {
     <div
       className={`bg-sidebar-border dark:shadow-sidebar-border shadow-zinc-300/50 shadow-lg border border-zinc-400/40 dark:border-zinc-600/50 rounded-xl p-4 h-64`}
     >
-      <CardHeading>Progress-Bar</CardHeading>
+      <CardHeading Icon={Circle}>Life Pace</CardHeading>
       {/* Progress Section */}
       <div className={`mt-4 space-y-3`}>
         {data.map((progress) => (

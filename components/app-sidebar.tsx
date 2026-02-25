@@ -32,7 +32,7 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon" className={``}>
       {/* HEADER */}
-      <SidebarHeader className={`border border-r-0 h-12`}>
+      <SidebarHeader className={`border h-12`}>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
