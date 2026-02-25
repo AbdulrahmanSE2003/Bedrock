@@ -1,27 +1,8 @@
 import NextAuth from "next-auth";
-import { SupabaseAdapter } from "@auth/supabase-adapter";
 import Google from "next-auth/providers/google";
-
-const baseAdapter = SupabaseAdapter({
-  url: process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  secret:
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-});
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: {
-    ...baseAdapter,
-    getUserByAccount: async (providerAccountId) => {
-      try {
-        // @ts-ignore
-        return await baseAdapter.getUserByAccount(providerAccountId);
-      } catch (error) {
-        console.error("DEBUG ADAPTER ERROR (getUserByAccount):", error);
-        throw error;
-      }
-    },
-  },
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -36,58 +17,63 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
+  // 1. تعريف مسار صفحة الساين إن المخصصة
   pages: {
     signIn: "/auth/signin",
   },
   session: { strategy: "jwt" },
   callbacks: {
-    async jwt({ token, account }) {
-      if (account) {
+    async signIn({ user }) {
+      if (!user.email || !user.id) return false;
+
+      try {
+        const { error } = await supabaseAdmin.from("users").upsert(
+          {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            image: user.image,
+            last_login: new Date().toISOString(),
+          },
+          { onConflict: "email" },
+        );
+
+        if (error) {
+          console.error("Error syncing user to Supabase:", error);
+          return true;
+        }
+        return true;
+      } catch (err) {
+        console.error("Manual Sync Exception:", err);
+        return true;
+      }
+    },
+    // 2. إجبار التوجيه للـ Dashboard بعد النجاح
+    async redirect({ url, baseUrl }) {
+      // لو فيه callbackUrl داخلي خده، غير كدة روح للداشبورد
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      else if (new URL(url).origin === baseUrl) return url;
+      return `${baseUrl}/dashboard`;
+    },
+    async jwt({ token, account, user }) {
+      if (account && user) {
         return {
           ...token,
           accessToken: account.access_token,
+          refreshToken: account.refresh_token,
           expiresAt: Math.floor(
             Date.now() / 1000 + (account.expires_in || 3600),
           ),
-          refreshToken: account.refresh_token,
+          userId: user.id,
         };
       }
-
-      if (Date.now() < (token.expiresAt as number) * 1000) {
-        return token;
-      } // لو التوكن انتهى.. هنا بنعمل Refresh تلقائي
-      try {
-        const response = await fetch("https://oauth2.googleapis.com/token", {
-          method: "POST",
-          body: new URLSearchParams({
-            client_id: process.env.GOOGLE_CLIENT_ID!,
-            client_secret: process.env.GOOGLE_CLIENT_SECRET!,
-            grant_type: "refresh_token",
-            refresh_token: token.refreshToken as string,
-          }),
-        });
-
-        const tokens = await response.json();
-
-        if (!response.ok) throw tokens;
-
-        return {
-          ...token,
-          accessToken: tokens.access_token,
-          expiresAt: Math.floor(Date.now() / 1000 + tokens.expires_in),
-          // لو جوجل بعتت refresh_token جديد نستخدمه، وإلا نفضل على القديم
-          refreshToken: tokens.refresh_token ?? token.refreshToken,
-        };
-      } catch (error) {
-        console.error("Error refreshing access token", error);
-        return { ...token, error: "RefreshAccessTokenError" };
-      }
+      return token;
     },
     async session({ session, token }) {
       // @ts-ignore
       session.accessToken = token.accessToken;
       // @ts-ignore
-      session.error = token.error;
+      session.user.id = token.userId;
       return session;
     },
   },
