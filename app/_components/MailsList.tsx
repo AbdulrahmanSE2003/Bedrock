@@ -9,14 +9,10 @@ const MailsList = ({ mails }: { mails: Mail[] }) => {
   useEffect(() => {
     if (mails) {
       setMails(mails);
-      console.log(mails);
     }
   }, [mails, setMails]);
 
   const displayMails = mails.length > 0 ? mails.slice(0, 10) : mails;
-
-  console.log(displayMails);
-
   return (
     <div className="flex flex-col h-full">
       <div className="flex-1 overflow-y-auto pr-2 space-y-2 max-h-72 scrollbar-thin scrollbar-thumb-zinc-800">

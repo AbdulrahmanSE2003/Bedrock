@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 
 import {
   Github,
+  KanbanSquare,
   LayoutDashboard,
   Mail,
   Settings2Icon,
@@ -22,7 +23,7 @@ import { usePathname } from "next/navigation";
 
 const tabs = [
   { name: "Dashboard", icon: LayoutDashboard, url: "/dashboard" },
-  { name: "Inbox", icon: Mail, url: "/inbox" },
+  { name: "Tasks", icon: KanbanSquare, url: "/tasks" },
   { name: "Habits", icon: Sprout, url: "/habits" },
   { name: "Pomodoro", icon: Timer, url: "/pomodoro" },
   { name: "Github", icon: Github, url: "/github" },

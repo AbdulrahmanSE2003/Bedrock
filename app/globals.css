@@ -136,11 +136,16 @@
   width: 5px;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--secondary);
+  background: var(--foreground);
   border-radius: 20px;
   transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-track {
   background: var(--input);
+}
+
+::selection {
+  background-color: var(--foreground);
+  color: var(--background);
 }

@@ -1,6 +1,7 @@
 import CardHeading from "@/app/_components/CardHeading";
 import DigitalClock from "@/app/_components/DigitalClock";
 import GmailOverview from "@/app/_components/GmailOverview";
+import PageHeading from "@/app/_components/PageHeading";
 import TimeProgress from "@/app/_components/TimeProgress";
 import { auth } from "@/auth";
 import { Command, Repeat2Icon, Timer } from "lucide-react";
@@ -12,10 +13,7 @@ const page = async () => {
     <div>
       {/* Dashboard Intro */}
       <div className={`flex justify-between items-center`}>
-        <h2 className={`text-3xl font-semibold mb-4`}>
-          Welcome, {session?.user?.name}
-        </h2>
-
+        <PageHeading title={`Welcome, ${session?.user?.name}` || "Guest"} />
         {/* Digital Clock */}
         <DigitalClock />
       </div>

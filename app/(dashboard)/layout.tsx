@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <AppSidebar />
       <div className={`flex flex-col w-full relative`}>
         <Navbar />
-        <main className={`p-6`}>{children}</main>
+        <main className={`p-6 h-[calc(100vh-48px)]`}>{children}</main>
       </div>
     </SidebarProvider>
   );
