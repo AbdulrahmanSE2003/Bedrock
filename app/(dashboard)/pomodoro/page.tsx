@@ -6,6 +6,7 @@ import Timer from "./_components/Timer";
 
 const PomodoroPage = () => {
   const { background } = usePomodoroStore();
+  console.log(background);
 
   return (
     <div

@@ -19,8 +19,8 @@ interface PomodoroState {
 }
 
 export const usePomodoroStore = create<PomodoroState>((set, get) => ({
-  minutes: 0,
-  seconds: 3,
+  minutes: 25,
+  seconds: 0,
   isActive: false,
   background: "bg-background",
   sound: "silence",

@@ -3,7 +3,9 @@
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -23,12 +25,41 @@ const PomodoroHeader = () => {
             <ImageIcon className="w-4 h-4 mr-2" />
             <SelectValue placeholder="Background" />
           </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="bg-background">Solid Background</SelectItem>
-            <SelectItem value="bg-zinc-950">Deep Night</SelectItem>
-            <SelectItem value="bg-blue-950">Ocean Blue</SelectItem>
-            <SelectItem value="bg-emerald-950">Forest Green</SelectItem>
-            <SelectItem value="bg-rose-950">Sunset Glow</SelectItem>
+          <SelectContent className="max-h-[300px]">
+            {" "}
+            {/* أضفنا max-h عشان الدروب داون متطولش أوي */}
+            <SelectGroup>
+              <SelectLabel className="text-[10px] uppercase tracking-widest opacity-50">
+                Standard
+              </SelectLabel>
+              <SelectItem value="bg-background">Default System</SelectItem>
+              <SelectItem value="bg-slate-950">Midnight Slate</SelectItem>
+              <SelectItem value="bg-zinc-900">Zinc Charcoal</SelectItem>
+            </SelectGroup>
+            <SelectGroup>
+              <SelectLabel className="text-[10px] uppercase tracking-widest opacity-50">
+                Deep Nature
+              </SelectLabel>
+              <SelectItem value="bg-[#052e16]">Midnight Forest</SelectItem>
+              <SelectItem value="bg-[#082f49]">Ocean Abyss</SelectItem>
+              <SelectItem value="bg-[#2e1065]">Royal Plum</SelectItem>
+            </SelectGroup>
+            <SelectGroup>
+              <SelectLabel className="text-[10px] uppercase tracking-widest opacity-50">
+                Warm Focus
+              </SelectLabel>
+              <SelectItem value="bg-[#1c1917]">Warm Espresso</SelectItem>
+              <SelectItem value="bg-[#450a0a]">Wine Cellar</SelectItem>
+              <SelectItem value="bg-[#422006]">Desert Dusk</SelectItem>
+            </SelectGroup>
+            <SelectGroup>
+              <SelectLabel className="text-[10px] uppercase tracking-widest opacity-50">
+                Vibrant
+              </SelectLabel>
+              <SelectItem value="bg-indigo-950">Electric Indigo</SelectItem>
+              <SelectItem value="bg-rose-950">Rosewood</SelectItem>
+              <SelectItem value="bg-teal-950">Deep Teal</SelectItem>
+            </SelectGroup>
           </SelectContent>
         </Select>
 
