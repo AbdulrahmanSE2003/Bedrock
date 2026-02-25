@@ -11,7 +11,7 @@ export async function fetchRecentEmails() {
 
   // 1. نجيب قائمة الـ IDs
   const listRes = await fetch(
-    "https://gmail.googleapis.com/gmail/v1/users/me/messages?maxResults=20",
+    "https://gmail.googleapis.com/gmail/v1/users/me/messages?maxResults=10",
     {
       headers: { Authorization: `Bearer ${token}` },
     },
@@ -40,6 +40,7 @@ export async function fetchRecentEmails() {
       return { id: msg.id, subject, from, snippet: detailData.snippet };
     }),
   );
+  console.log("From SERVER: ", emailDetails);
 
   return emailDetails;
 }

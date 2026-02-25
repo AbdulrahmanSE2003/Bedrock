@@ -3,7 +3,7 @@ import DigitalClock from "@/app/_components/DigitalClock";
 import GmailOverview from "@/app/_components/GmailOverview";
 import TimeProgress from "@/app/_components/TimeProgress";
 import { auth } from "@/auth";
-import { Command, Inbox, Repeat2Icon, Terminal, Timer } from "lucide-react";
+import { Command, Repeat2Icon, Timer } from "lucide-react";
 
 const page = async () => {
   const session = await auth();

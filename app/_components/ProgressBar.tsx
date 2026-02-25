@@ -1,16 +1,15 @@
 type ProgressBarProps = {
   value: number;
-  label: string;
 };
 
-const ProgressBar = ({ value, label }: ProgressBarProps) => {
+const ProgressBar = ({ value }: ProgressBarProps) => {
   const safeValue = Math.floor(value);
 
   return (
-    <div className={`flex justify-between items-center gap-3`}>
+    <div className={`flex`}>
       {/* wrapper */}
       <div
-        className={`border border-accent-foreground p-2 rounded-md bg-primary-foreground w-3/4`}
+        className={`border border-accent-foreground p-2 rounded-md bg-primary-foreground w-full`}
       >
         {/* Progress */}
         <div
@@ -18,7 +17,6 @@ const ProgressBar = ({ value, label }: ProgressBarProps) => {
           className={`bg-accent-foreground h-6 rounded-sm`}
         ></div>
       </div>
-      <span className={`text-sm text-right font-medium`}>{label}</span>
     </div>
   );
 };

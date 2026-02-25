@@ -136,11 +136,11 @@
   width: 5px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #27272a; /* لون الـ zinc-800 */
-  border-radius: 10px;
+  background: var(--secondary);
+  border-radius: 20px;
+  transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-track {
-  background-color: var(--accent-foreground);
-  width: 8px;
+  background: var(--input);
 }

@@ -10,6 +10,7 @@ import {
 import { cn } from "@/lib/utils";
 
 import {
+  Github,
   LayoutDashboard,
   Mail,
   Settings2Icon,
@@ -24,6 +25,7 @@ const tabs = [
   { name: "Inbox", icon: Mail, url: "/inbox" },
   { name: "Habits", icon: Sprout, url: "/habits" },
   { name: "Pomodoro", icon: Timer, url: "/pomodoro" },
+  { name: "Github", icon: Github, url: "/github" },
   { name: "Settings", icon: Settings2Icon, url: "/settings" },
 ];
 
