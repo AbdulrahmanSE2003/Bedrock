@@ -33,7 +33,7 @@ const DigitalClock = () => {
         </span>
       </div>
 
-      <p className="text-gray-400 dark:text-neutral-500 font-medium tracking-[0.2em] uppercase text-[10px] mt-2">
+      <p className="text-gray-400 dark:text-neutral-500 font-medium tracking-[0.2em] uppercase text-[10px] mt-2 text-end">
         {time.toLocaleDateString("en-GB", {
           weekday: "long",
           day: "numeric",

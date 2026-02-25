@@ -5,9 +5,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const getProgress = (type: "year" | "month" | "week") => {
-  const now = new Date();
+const now = new Date();
 
+export const getProgress = (type: "year" | "month" | "week") => {
   if (type === "year") {
     const start = new Date(now.getFullYear(), 0, 1).getTime();
     const end = new Date(now.getFullYear() + 1, 0, 1).getTime();

@@ -11,7 +11,7 @@ const data = [
 const TimeProgress = () => {
   return (
     <div
-      className={`bg-sidebar-border dark:shadow-sidebar-border shadow-zinc-300/50 shadow-lg border border-zinc-400/40 dark:border-zinc-600/50 rounded-xl p-4 h-64`}
+      className={`bg-primary-foreground dark:-sidebar-border dark:shadow-zinc-800/25 shadow-zinc-300/50 shadow-lg border border-zinc-400/40 dark:border-zinc-600/50 rounded-xl p-6 h-64`}
     >
       <CardHeading Icon={Circle}>Life Pace</CardHeading>
       {/* Progress Section */}

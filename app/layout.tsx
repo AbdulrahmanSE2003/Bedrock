@@ -30,7 +30,6 @@ export const metadata: Metadata = {
     "life dashboard",
     "personal os",
   ],
-  // لو عندك favicon حقيقي، غير المسار ده
   icons: {
     icon: "/Logo.svg",
   },
