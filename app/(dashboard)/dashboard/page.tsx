@@ -1,5 +1,6 @@
 import CardHeading from "@/app/_components/CardHeading";
 import DigitalClock from "@/app/_components/DigitalClock";
+import GmailOverview from "@/app/_components/GmailOverview";
 import TimeProgress from "@/app/_components/TimeProgress";
 import { auth } from "@/auth";
 import { Command, Inbox, Repeat2Icon, Terminal, Timer } from "lucide-react";
@@ -21,11 +22,8 @@ const page = async () => {
 
       {/* Dashboard Cards */}
       <div className={`grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6`}>
-        <div
-          className={`max-md:min-h-100 bg-sidebar-primary-foreground dark:bg-sidebar-border dark:shadow-zinc-800/25  shadow-zinc-300/50 shadow-lg border border-zinc-400/40 dark:border-zinc-600/50 rounded-xl p-6 h-64 grow md:col-span-3`}
-        >
-          <CardHeading Icon={Inbox}>Gmail Overview</CardHeading>
-        </div>
+        {/* Gmail Overview*/}
+        <GmailOverview />
         {/* Life Pace */}
         <TimeProgress />
 
