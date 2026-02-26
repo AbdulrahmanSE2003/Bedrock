@@ -11,7 +11,7 @@ const FloatingTimer = () => {
   const [mounted, setMounted] = useState(false);
   const pathName = usePathname();
   const offset = useRef({ x: 0, y: 0 });
-  const { minutes, seconds, tick, isActive } = usePomodoroStore();
+  const { minutes, seconds, isActive } = usePomodoroStore();
   const timeDisplay = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 
   // Dragging Logic
@@ -53,7 +53,12 @@ const FloatingTimer = () => {
     setMounted(true);
   }, []);
 
-  if (!mounted || pathName === "/pomodoro" || pathName === "/dashboard")
+  if (
+    !mounted ||
+    !isActive ||
+    pathName === "/pomodoro" ||
+    pathName === "/dashboard"
+  )
     return null;
 
   return (

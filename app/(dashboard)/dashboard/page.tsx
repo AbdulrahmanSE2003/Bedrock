@@ -5,7 +5,7 @@ import PageHeading from "@/app/_components/PageHeading";
 import PomodoroWidget from "@/app/_components/PomodoroWidget";
 import TimeProgress from "@/app/_components/TimeProgress";
 import { auth } from "@/auth";
-import { Command, Repeat2Icon } from "lucide-react";
+import { Command, Repeat2Icon, Sprout } from "lucide-react";
 
 const page = async () => {
   const session = await auth();
@@ -37,7 +37,7 @@ const page = async () => {
         <div
           className={`max-md:min-h-100 bg-primary-foreground dark:-sidebar-border  dark:shadow-zinc-800/25  shadow-zinc-300/50 shadow-lg border border-zinc-400/40 dark:border-zinc-600/50 rounded-xl p-6 h-64 md:col-span-2`}
         >
-          <CardHeading Icon={Repeat2Icon}>Daily Habits</CardHeading>
+          <CardHeading Icon={Sprout}>Daily Habits</CardHeading>
         </div>
       </div>
     </div>
