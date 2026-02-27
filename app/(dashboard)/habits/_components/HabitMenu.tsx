@@ -9,7 +9,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { EllipsisVerticalIcon, Trash } from "lucide-react";
+import { Edit, EllipsisVerticalIcon, Trash } from "lucide-react";
 import EditHabitModal from "./EditHabitModal";
 import { Habit } from "@/types/habits";
 import { useState } from "react";
@@ -19,8 +19,6 @@ import { toast } from "sonner";
 import { bell } from "@/lib/utils";
 
 const HabitMenu = ({ habit }: { habit: Habit }) => {
-  const [showEditModal, setShowEditModal] = useState(false);
-
   const onDelete = async () => {
     const res = await deleteHabit(habit.id);
 
@@ -45,15 +43,15 @@ const HabitMenu = ({ habit }: { habit: Habit }) => {
             Habit Actions
           </DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() => setShowEditModal(true)}
             onSelect={(e) => e.preventDefault()}
             className={` cursor-pointer`}
           >
-            <EditHabitModal
-              habit={habit}
-              open={showEditModal}
-              onOpenChange={setShowEditModal}
-            />
+            <EditHabitModal habit={habit}>
+              <div className={`flex gap-2 items-center`}>
+                <Edit />
+                Edit Habit
+              </div>
+            </EditHabitModal>
           </DropdownMenuItem>
           <DropdownMenuItem
             onSelect={(e) => e.preventDefault()}

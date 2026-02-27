@@ -18,42 +18,38 @@ import { Label } from "@/components/ui/label";
 import { bell } from "@/lib/utils";
 import { Habit } from "@/types/habits";
 import { Edit } from "lucide-react";
-import { useRef } from "react";
+import { ReactNode, useRef, useState } from "react";
 import { toast } from "sonner";
 
-const EditHabitModal = ({
-  habit,
-  open,
-  onOpenChange,
-}: {
+type EditHabitModalProps = {
+  children: ReactNode;
   habit: Habit;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}) => {
+};
+
+const EditHabitModal = ({ children, habit }: EditHabitModalProps) => {
+  const [habitName, setHabitName] = useState(habit.name);
+  const [habitColor, setHabitColor] = useState(habit.color);
+
   const closeRef = useRef<HTMLButtonElement>(null);
 
-  const clientAction = async (formData: FormData) => {
-    const res = await editHabit(habit.id, formData);
+  const onConfirm = async () => {
+    const res = await editHabit(habit.id, habitName, habitColor);
 
     if (res?.error) {
-      toast.error("Failed to update habit.");
+      toast.error("Failed updating habit data.");
       console.error(res.error);
+      return;
     } else {
-      onOpenChange(false);
-      toast.success("Habit changed successfully!");
+      closeRef.current?.click();
+      toast.success("Habit data changed successfully!");
       bell();
     }
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog>
       {" "}
-      <DialogTrigger asChild>
-        <div className={`flex gap-2 items-center`}>
-          <Edit />
-          Edit Habit
-        </div>
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>
@@ -62,38 +58,38 @@ const EditHabitModal = ({
             organized.
           </DialogDescription>
         </DialogHeader>
-        <form action={clientAction}>
-          <FieldGroup>
-            <Field>
-              <Label htmlFor="habitName">Habit Name</Label>
-              <Input
-                id="habitName"
-                name="habitName"
-                defaultValue={habit.name}
-                placeholder="Add new habit..."
-                required
-              />
-            </Field>
-            <Field>
-              <Label htmlFor="habitColor">Habit Color</Label>
-              <Input
-                id="habitColor"
-                name="habitColor"
-                type="color"
-                className="max-w-20"
-                defaultValue={habit.color}
-              />
-            </Field>
-          </FieldGroup>
-          <DialogFooter className="mt-4">
-            <DialogClose asChild>
-              <Button ref={closeRef} variant="outline" type="button">
-                Cancel
-              </Button>
-            </DialogClose>
-            <Button type="submit">Save changes</Button>
-          </DialogFooter>
-        </form>
+        <FieldGroup>
+          <Field>
+            <Label htmlFor="habitName">Habit Name</Label>
+            <Input
+              id="habitName"
+              name="habitName"
+              defaultValue={habitName}
+              onChange={(e) => setHabitName(e.target.value)}
+              placeholder="Add new habit..."
+              required
+            />
+          </Field>
+          <Field>
+            <Label htmlFor="habitColor">Habit Color</Label>
+            <Input
+              id="habitColor"
+              name="habitColor"
+              defaultValue={habitColor}
+              onChange={(e) => setHabitColor(e.target.value)}
+              type="color"
+              className="max-w-20"
+            />
+          </Field>
+        </FieldGroup>
+        <DialogFooter className="mt-4">
+          <DialogClose ref={closeRef} asChild>
+            <Button variant="outline" type="button">
+              Cancel
+            </Button>
+          </DialogClose>
+          <Button onClick={onConfirm}>Save changes</Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

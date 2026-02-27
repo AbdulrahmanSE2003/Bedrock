@@ -31,7 +31,11 @@ export async function addNewHabit(formData: FormData) {
   }
 }
 
-export async function editHabit(habit_id: string, formData: FormData) {
+export async function editHabit(
+  habit_id: string,
+  habitName: string,
+  color: string,
+) {
   try {
     const session = await auth();
     const userId = session?.user?.id;
@@ -40,8 +44,6 @@ export async function editHabit(habit_id: string, formData: FormData) {
       return { error: "You must be logged in" };
     }
 
-    const habitName = String(formData.get("habitName"));
-    const color = String(formData.get("habitColor"));
     if (!habitName.trim() || !color) return;
 
     await EditHabit(habitName, color, habit_id);
