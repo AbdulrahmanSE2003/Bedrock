@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -5,12 +7,15 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Edit, EllipsisVerticalIcon, Menu, Trash } from "lucide-react";
+import { EllipsisVerticalIcon, Trash } from "lucide-react";
+import EditHabitModal from "./EditHabitModal";
+import { Habit } from "@/types/habits";
+import { useState } from "react";
 
-const HabitMenu = () => {
+const HabitMenu = ({ habit }: { habit: Habit }) => {
+  const [showEditModal, setShowEditModal] = useState(false);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -23,9 +28,16 @@ const HabitMenu = () => {
           <DropdownMenuLabel className={`opacity-50`}>
             Habit Actions
           </DropdownMenuLabel>
-          <DropdownMenuItem className={` cursor-pointer`}>
-            <Edit />
-            Edit Habit
+          <DropdownMenuItem
+            onClick={() => setShowEditModal(true)}
+            onSelect={(e) => e.preventDefault()}
+            className={` cursor-pointer`}
+          >
+            <EditHabitModal
+              habit={habit}
+              open={showEditModal}
+              onOpenChange={setShowEditModal}
+            />
           </DropdownMenuItem>
           <DropdownMenuItem className={`cursor-pointer`} variant="destructive">
             <Trash />

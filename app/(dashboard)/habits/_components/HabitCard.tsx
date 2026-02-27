@@ -74,7 +74,7 @@ const HabitCard = ({ habit }: HabitCardProps) => {
             {!isTodayChecked && <CheckCircle2 className="ml-2 w-4 h-4" />}
           </Button>
 
-          <HabitMenu />
+          <HabitMenu habit={habit} />
         </div>
       </div>
 

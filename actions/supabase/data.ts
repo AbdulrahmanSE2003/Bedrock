@@ -30,6 +30,18 @@ export const addHabit = async (name: string, color: string, id: string) => {
   if (error) console.error(error);
 };
 
+export const EditHabit = async (name: string, color: string, id: string) => {
+  const { error } = await supabaseAdmin
+    .from("habits")
+    .update({
+      name,
+      color,
+    })
+    .eq("id", id);
+
+  if (error) console.error(error);
+};
+
 export const checkHabit = async (
   user_id: string,
   habit_id: string,
