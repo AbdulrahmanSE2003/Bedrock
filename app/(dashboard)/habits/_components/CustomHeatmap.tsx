@@ -26,8 +26,6 @@ export default function CustomHeatmap({ logs, baseColor }: Props) {
             return log.completed_at === dateStr;
           });
 
-          const isFuture = day > startOfToday();
-
           return (
             <div
               key={dateStr}
@@ -35,7 +33,6 @@ export default function CustomHeatmap({ logs, baseColor }: Props) {
               className={`
                 w-3.5 h-3.5 md:w-2.5 md:h-2.5 
                 rounded-[2px] transition-all duration-300 
-                ${!isFuture ? "hover:scale-125 cursor-pointer" : ""}
                 ${isToday(dateStr) && "border border-white"}
               `}
               style={{

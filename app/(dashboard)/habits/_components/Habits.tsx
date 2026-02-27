@@ -1,11 +1,5 @@
 import { getHabits } from "@/actions/supabase/data";
 import HabitCard from "./HabitCard";
-export type Habit = {
-  id: string;
-  name: string;
-  color: string;
-  habit_logs: { completed_at: string }[];
-};
 
 const Habits = async () => {
   const habits = await getHabits();
