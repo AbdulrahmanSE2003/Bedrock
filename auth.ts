@@ -24,24 +24,31 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
   callbacks: {
     async signIn({ user }) {
-      if (!user.email || !user.id) return false;
+      if (!user.email) return false;
 
       try {
-        const { error } = await supabaseAdmin.from("users").upsert(
-          {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            image: user.image,
-            last_login: new Date().toISOString(),
-          },
-          { onConflict: "email" },
-        );
+        const { data, error } = await supabaseAdmin
+          .from("users")
+          .upsert(
+            {
+              id: user.id,
+              email: user.email,
+              name: user.name,
+              image: user.image,
+              last_login: new Date().toISOString(),
+            },
+            { onConflict: "email" },
+          )
+          .select("id")
+          .single();
 
         if (error) {
           console.error("Error syncing user to Supabase:", error);
           return true;
         }
+
+        user.id = data?.id;
+
         return true;
       } catch (err) {
         console.error("Manual Sync Exception:", err);
@@ -56,6 +63,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return `${baseUrl}/dashboard`;
     },
     async jwt({ token, account, user }) {
+      if (user) {
+        // هنا الـ token.userId هياخد الـ UUID الثابت اللي جاي من سوبابيز
+        token.userId = user.id;
+      }
+
       if (account && user) {
         return {
           ...token,

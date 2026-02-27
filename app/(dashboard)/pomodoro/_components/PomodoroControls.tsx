@@ -12,7 +12,7 @@ import {
 import { Image as ImageIcon, Volume2 } from "lucide-react";
 import { usePomodoroStore } from "@/store/usePomodoroStore";
 
-const PomodoroHeader = () => {
+const PomodoroControls = () => {
   const { background, setBackground, sound, setSound } = usePomodoroStore();
   return (
     <div
@@ -88,4 +88,4 @@ const PomodoroHeader = () => {
   );
 };
 
-export default PomodoroHeader;
+export default PomodoroControls;

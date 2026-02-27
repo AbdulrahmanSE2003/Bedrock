@@ -1,7 +1,11 @@
 import CustomHeatmap from "./CustomHeatmap";
 import { type Habit } from "./Habits";
 
-const HabitCard = (habit: Habit) => {
+type HabitCardProps = {
+  habit: Habit;
+};
+
+const HabitCard = ({ habit }: HabitCardProps) => {
   console.log(habit.name);
 
   return (

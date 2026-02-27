@@ -15,7 +15,7 @@ interface PomodoroState {
   resetTimer: (mins?: number) => void;
   setBackground: (bg: string) => void;
   setSound: (sd: string) => void;
-  stopAmbient: () => void; // دالة مساعدة لفصل الصوت
+  stopAmbient: () => void;
 }
 
 export const usePomodoroStore = create<PomodoroState>((set, get) => ({
@@ -25,7 +25,6 @@ export const usePomodoroStore = create<PomodoroState>((set, get) => ({
   background: "bg-background",
   sound: "silence",
 
-  // دالة مخصصة لقفل الصوت تماماً
   stopAmbient: () => {
     if (ambientAudio) {
       ambientAudio.pause();
@@ -42,11 +41,9 @@ export const usePomodoroStore = create<PomodoroState>((set, get) => ({
     } else if (minutes > 0) {
       set({ minutes: minutes - 1, seconds: 59 });
     } else {
-      // أول ما يخلص:
-      stopAmbient(); // 1. اقفل صوت الـ Ambient فوراً
-      set({ isActive: false }); // 2. وقف التايمر
+      stopAmbient();
+      set({ isActive: false });
 
-      // 3. نبه المستخدم
       toast.success("Session Finished! Time for a break. ☕");
       const notify = new Audio("/sounds/notification.wav");
       notify.play().catch((e) => console.log("Notify fail", e));
@@ -58,7 +55,6 @@ export const usePomodoroStore = create<PomodoroState>((set, get) => ({
     const nextActiveState = !isActive;
 
     if (nextActiveState) {
-      // لو شغال ومش سايلانت، حمل وشغل الصوت
       if (sound !== "silence") {
         ambientAudio = new Audio(`/sounds/${sound}.wav`);
         ambientAudio.loop = true;
@@ -86,9 +82,8 @@ export const usePomodoroStore = create<PomodoroState>((set, get) => ({
     const { isActive, stopAmbient } = get();
     set({ sound: newSound });
 
-    // لو غيرت الصوت والتايمر شغال
     if (isActive) {
-      stopAmbient(); // اقفل القديم
+      stopAmbient();
       if (newSound !== "silence") {
         ambientAudio = new Audio(`/sounds/${newSound}.wav`);
         ambientAudio.loop = true;

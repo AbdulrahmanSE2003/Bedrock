@@ -9,5 +9,7 @@ export const getHabits = async () => {
     .select(`*, habit_logs(completed_at)`)
     .eq("user_id", session?.user?.id);
 
+  console.log(session?.user?.id);
+
   return habits;
 };
