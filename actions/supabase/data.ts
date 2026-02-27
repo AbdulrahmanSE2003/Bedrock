@@ -1,15 +1,19 @@
 import { auth } from "@/auth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { Session } from "inspector/promises";
 
 // Habits Section
 export const getHabits = async () => {
   const session = await auth();
-  const { data: habits } = await supabaseAdmin
+  const { data: habits, error } = await supabaseAdmin
     .from("habits")
     .select(`*, habit_logs(completed_at)`)
     .eq("user_id", session?.user?.id);
 
-  console.log(session?.user?.id);
+  if (error) {
+    console.error(error);
+    return;
+  }
 
   return habits;
 };
@@ -43,4 +47,20 @@ export const checkHabit = async (
     .select();
 
   if (error) console.error(error);
+};
+
+// Get User ID
+export const getUserId = async () => {
+  const session = await auth();
+  const { data: users, error } = await supabaseAdmin
+    .from("users")
+    .select("id")
+    .eq("email", session?.user?.email);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  return users;
 };

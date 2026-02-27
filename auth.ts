@@ -17,75 +17,57 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  // 1. تعريف مسار صفحة الساين إن المخصصة
-  pages: {
-    signIn: "/auth/signin",
-  },
+  pages: { signIn: "/auth/signin" },
   session: { strategy: "jwt" },
   callbacks: {
     async signIn({ user }) {
       if (!user.email) return false;
 
       try {
+        // 1. هنعمل Upsert بناءً على الإيميل فقط
+        // سوبابيز هتدور بالإيميل: لو موجود هتحدث البيانات، لو مش موجود هتكريت جديد
         const { data, error } = await supabaseAdmin
           .from("users")
           .upsert(
             {
-              id: user.id,
               email: user.email,
               name: user.name,
               image: user.image,
               last_login: new Date().toISOString(),
             },
-            { onConflict: "email" },
+            { onConflict: "email" }, // ده السحر: لو الإيميل موجود، لا تكريت ID جديد
           )
           .select("id")
           .single();
 
-        if (error) {
-          console.error("Error syncing user to Supabase:", error);
-          return true;
-        }
+        if (error) throw error;
 
-        user.id = data?.id;
-
+        // 2. بنثبت الـ UUID الداخلي بتاعنا في كائن الـ user بتاع NextAuth
+        user.id = data.id;
         return true;
       } catch (err) {
-        console.error("Manual Sync Exception:", err);
+        console.error("Auth Sync Error:", err);
         return true;
       }
     },
-    // 2. إجبار التوجيه للـ Dashboard بعد النجاح
-    async redirect({ url, baseUrl }) {
-      // لو فيه callbackUrl داخلي خده، غير كدة روح للداشبورد
-      if (url.startsWith("/")) return `${baseUrl}${url}`;
-      else if (new URL(url).origin === baseUrl) return url;
-      return `${baseUrl}/dashboard`;
-    },
-    async jwt({ token, account, user }) {
+
+    async jwt({ token, user, account }) {
+      // الـ user.id هنا هو الـ UUID الثابت اللي جبناه من سوبابيز في خطوة الـ signIn
       if (user) {
-        // هنا الـ token.userId هياخد الـ UUID الثابت اللي جاي من سوبابيز
         token.userId = user.id;
       }
-
-      if (account && user) {
-        return {
-          ...token,
-          accessToken: account.access_token,
-          refreshToken: account.refresh_token,
-          expiresAt: Math.floor(
-            Date.now() / 1000 + (account.expires_in || 3600),
-          ),
-          userId: user.id,
-        };
+      if (account) {
+        token.accessToken = account.access_token;
       }
       return token;
     },
+
     async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.userId as string;
+      }
       // @ts-ignore
       session.accessToken = token.accessToken;
-      // @ts-ignore
-      session.user.id = token.userId;
       return session;
     },
   },

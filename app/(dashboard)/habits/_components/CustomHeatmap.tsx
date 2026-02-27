@@ -33,7 +33,7 @@ export default function CustomHeatmap({ logs, baseColor }: Props) {
               className={`
                 w-3.5 h-3.5 md:w-2.5 md:h-2.5 
                 rounded-[2px] transition-all duration-300 
-                ${isToday(dateStr) && "border border-white"}
+                ${isToday(dateStr) && "dark:border dark:border-white"}
               `}
               style={{
                 backgroundColor: isDone ? baseColor : "rgba(85, 84, 84, 0.124)",

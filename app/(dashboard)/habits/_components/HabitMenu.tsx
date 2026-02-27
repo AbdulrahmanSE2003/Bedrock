@@ -14,7 +14,7 @@ const HabitMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary">
+        <Button variant="outline">
           <EllipsisVerticalIcon />
         </Button>
       </DropdownMenuTrigger>
@@ -23,11 +23,11 @@ const HabitMenu = () => {
           <DropdownMenuLabel className={`opacity-50`}>
             Habit Actions
           </DropdownMenuLabel>
-          <DropdownMenuItem>
+          <DropdownMenuItem className={` cursor-pointer`}>
             <Edit />
             Edit Habit
           </DropdownMenuItem>
-          <DropdownMenuItem variant="destructive">
+          <DropdownMenuItem className={`cursor-pointer`} variant="destructive">
             <Trash />
             Delete Habit
           </DropdownMenuItem>

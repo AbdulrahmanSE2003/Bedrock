@@ -1,3 +1,4 @@
+import { getUserId } from "@/actions/supabase/data";
 import CardHeading from "@/app/_components/CardHeading";
 import DigitalClock from "@/app/_components/DigitalClock";
 import GmailOverview from "@/app/_components/GmailOverview";
@@ -5,7 +6,7 @@ import PageHeading from "@/app/_components/PageHeading";
 import PomodoroWidget from "@/app/_components/PomodoroWidget";
 import TimeProgress from "@/app/_components/TimeProgress";
 import { auth } from "@/auth";
-import { Command, Repeat2Icon, Sprout } from "lucide-react";
+import { Command, Sprout } from "lucide-react";
 
 const page = async () => {
   const session = await auth();

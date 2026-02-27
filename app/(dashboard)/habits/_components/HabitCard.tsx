@@ -67,7 +67,7 @@ const HabitCard = ({ habit }: HabitCardProps) => {
           <Button
             onClick={handleCheck}
             disabled={isTodayChecked || isPending}
-            variant="secondary"
+            variant="outline"
             className="disabled:cursor-not-allowed"
           >
             {isTodayChecked ? "Checked Today" : "Check"}
