@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import CustomHeatmap from "./CustomHeatmap";
 import { checkHabitAction } from "@/actions/habits";
 import { Habit } from "@/types/habits";
+import HabitMenu from "./HabitMenu";
 
 type HabitCardProps = {
   habit: Habit;
@@ -61,15 +62,20 @@ const HabitCard = ({ habit }: HabitCardProps) => {
           </p>
         </div>
 
-        <Button
-          onClick={handleCheck}
-          disabled={isTodayChecked || isPending}
-          variant="secondary"
-          className="disabled:cursor-not-allowed"
-        >
-          {isTodayChecked ? "Checked Today" : "Check"}
-          {!isTodayChecked && <CheckCircle2 className="ml-2 w-4 h-4" />}
-        </Button>
+        {/* Habit Actions */}
+        <div className={`flex justify-center items-center gap-3`}>
+          <Button
+            onClick={handleCheck}
+            disabled={isTodayChecked || isPending}
+            variant="secondary"
+            className="disabled:cursor-not-allowed"
+          >
+            {isTodayChecked ? "Checked Today" : "Check"}
+            {!isTodayChecked && <CheckCircle2 className="ml-2 w-4 h-4" />}
+          </Button>
+
+          <HabitMenu />
+        </div>
       </div>
 
       <CustomHeatmap logs={optimisticLogs} baseColor={habit.color} />
