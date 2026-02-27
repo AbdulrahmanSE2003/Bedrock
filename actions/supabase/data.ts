@@ -13,3 +13,15 @@ export const getHabits = async () => {
 
   return habits;
 };
+
+export const addHabit = async (name: string, color: string, id: string) => {
+  const { error } = await supabaseAdmin.from("habits").insert([
+    {
+      name,
+      color,
+      user_id: id,
+    },
+  ]);
+
+  if (error) console.error(error);
+};

@@ -3,12 +3,12 @@ import HabitCard from "./HabitCard";
 export type Habit = {
   name: string;
   color: string;
-  habit_logs: any;
+  habit_logs: { completed_at: string }[];
 };
 
 const Habits = async () => {
   const habits = await getHabits();
-  console.log(habits);
+  // console.log(habits);
 
   return (
     <div>
