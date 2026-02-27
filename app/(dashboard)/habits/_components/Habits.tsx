@@ -11,10 +11,12 @@ const Habits = async () => {
   console.log(habits);
 
   return (
-    <div className="grid gap-6">
-      {habits?.map((habit) => (
-        <HabitCard key={habit.id} habit={habit} />
-      ))}
+    <div>
+      <div className="grid md:grid-cols-2 gap-6 w-full">
+        {habits?.map((habit) => (
+          <HabitCard key={habit.id} habit={habit} />
+        ))}
+      </div>
     </div>
   );
 };
