@@ -15,6 +15,7 @@ import {
 import { Field, FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { bell } from "@/lib/utils";
 import { Habit } from "@/types/habits";
 import { Edit } from "lucide-react";
 import { useRef } from "react";
@@ -40,6 +41,7 @@ const EditHabitModal = ({
     } else {
       onOpenChange(false);
       toast.success("Habit changed successfully!");
+      bell();
     }
   };
 

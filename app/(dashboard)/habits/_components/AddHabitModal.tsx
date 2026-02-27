@@ -10,6 +10,7 @@ import { DialogClose, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { addNewHabit } from "@/actions/habits";
+import { bell } from "@/lib/utils";
 
 export default function AddHabitModal() {
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -20,6 +21,7 @@ export default function AddHabitModal() {
       toast.error(res.error);
     } else {
       toast.success("Habit created successfully!");
+      bell();
       closeRef.current?.click();
     }
   };

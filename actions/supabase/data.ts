@@ -2,20 +2,32 @@ import { auth } from "@/auth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { Session } from "inspector/promises";
 
-// Habits Section
+import { unstable_cache } from "next/cache";
+
 export const getHabits = async () => {
   const session = await auth();
-  const { data: habits, error } = await supabaseAdmin
-    .from("habits")
-    .select(`*, habit_logs(completed_at)`)
-    .eq("user_id", session?.user?.id);
+  const userId = session?.user?.id;
 
-  if (error) {
-    console.error(error);
-    return;
-  }
+  if (!userId) return [];
 
-  return habits;
+  const cachedData = await unstable_cache(
+    async () => {
+      const { data: habits, error } = await supabaseAdmin
+        .from("habits")
+        .select(`*, habit_logs(completed_at)`)
+        .eq("user_id", userId);
+
+      if (error) throw error;
+      return habits;
+    },
+    [`habits-${userId}`], 
+    {
+      revalidate: 86400, 
+      tags: [`habits-list-${userId}`], 
+    }
+  )();
+
+  return cachedData;
 };
 
 export const addHabit = async (name: string, color: string, id: string) => {

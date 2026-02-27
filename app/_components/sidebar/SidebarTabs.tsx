@@ -14,6 +14,7 @@ import {
   KanbanSquare,
   LayoutDashboard,
   Mail,
+  Notebook,
   Settings2Icon,
   Sprout,
   Timer,
@@ -27,6 +28,7 @@ const tabs = [
   { name: "Habits", icon: Sprout, url: "/habits" },
   { name: "Pomodoro", icon: Timer, url: "/pomodoro" },
   { name: "Github", icon: Github, url: "/github" },
+  { name: "Content", icon: Notebook, url: "/content" },
   { name: "Settings", icon: Settings2Icon, url: "/settings" },
 ];
 

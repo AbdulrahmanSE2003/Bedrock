@@ -9,6 +9,7 @@ import CustomHeatmap from "./CustomHeatmap";
 import { checkHabitAction } from "@/actions/habits";
 import { Habit } from "@/types/habits";
 import HabitMenu from "./HabitMenu";
+import { calculateStreak } from "@/lib/utils";
 
 type HabitCardProps = {
   habit: Habit;
@@ -58,7 +59,8 @@ const HabitCard = ({ habit }: HabitCardProps) => {
             Habit: <span style={{ color: habit.color }}>{habit.name}</span>
           </h3>
           <p className="text-sm text-gray-400">
-            Streak: {/* Streak logic goes here */}
+            Streak:
+            {calculateStreak(habit.habit_logs)}
           </p>
         </div>
 

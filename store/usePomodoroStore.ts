@@ -1,3 +1,4 @@
+import { bell } from "@/lib/utils";
 import { toast } from "sonner";
 import { create } from "zustand";
 
@@ -45,8 +46,7 @@ export const usePomodoroStore = create<PomodoroState>((set, get) => ({
       set({ isActive: false });
 
       toast.success("Session Finished! Time for a break. ☕");
-      const notify = new Audio("/sounds/notification.wav");
-      notify.play().catch((e) => console.log("Notify fail", e));
+      bell();
     }
   },
 

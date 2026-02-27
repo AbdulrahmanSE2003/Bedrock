@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import { format, subDays } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -21,3 +22,37 @@ export const getProgress = (type: "year" | "month" | "week") => {
   const day = now.getDay(); // Sunday is 0
   return ((day + 1) / 7) * 100;
 };
+
+export function calculateStreak(logs: { completed_at: string }[]) {
+  if (!logs || logs.length === 0) return 0;
+
+  const completedDates = new Set(
+    logs.map((log) => format(new Date(log.completed_at), "yyyy-MM-dd")),
+  );
+
+  let streak = 0;
+  let currentDate = new Date();
+
+  const todayStr = format(currentDate, "yyyy-MM-dd");
+  const yesterdayStr = format(subDays(currentDate, 1), "yyyy-MM-dd");
+
+  if (!completedDates.has(todayStr) && !completedDates.has(yesterdayStr)) {
+    return 0;
+  }
+
+  let checkDate = completedDates.has(todayStr)
+    ? currentDate
+    : subDays(currentDate, 1);
+
+  while (completedDates.has(format(checkDate, "yyyy-MM-dd"))) {
+    streak++;
+    checkDate = subDays(checkDate, 1);
+  }
+
+  return streak;
+}
+
+export function bell() {
+  const notify = new Audio("/sounds/notification.wav");
+  notify.play().catch((e) => console.log("Notify fail", e));
+}
