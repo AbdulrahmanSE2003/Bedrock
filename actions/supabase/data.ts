@@ -25,3 +25,22 @@ export const addHabit = async (name: string, color: string, id: string) => {
 
   if (error) console.error(error);
 };
+
+export const checkHabit = async (
+  user_id: string,
+  habit_id: string,
+  completed_at: string,
+) => {
+  const { error } = await supabaseAdmin
+    .from("habit_logs")
+    .insert([
+      {
+        user_id,
+        habit_id,
+        completed_at,
+      },
+    ])
+    .select();
+
+  if (error) console.error(error);
+};
