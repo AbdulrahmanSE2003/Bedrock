@@ -13,9 +13,25 @@ import { EllipsisVerticalIcon, Trash } from "lucide-react";
 import EditHabitModal from "./EditHabitModal";
 import { Habit } from "@/types/habits";
 import { useState } from "react";
+import ConfirmDialog from "@/app/_components/ConfirmDialog";
+import { deleteHabit } from "@/actions/habits";
+import { toast } from "sonner";
+import { bell } from "@/lib/utils";
 
 const HabitMenu = ({ habit }: { habit: Habit }) => {
   const [showEditModal, setShowEditModal] = useState(false);
+
+  const onDelete = async () => {
+    const res = await deleteHabit(habit.id);
+
+    if (res.error) {
+      toast.error("Failed to delete habit.");
+    } else {
+      toast.success("Habit deleted successfully!");
+      bell();
+    }
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -39,9 +55,15 @@ const HabitMenu = ({ habit }: { habit: Habit }) => {
               onOpenChange={setShowEditModal}
             />
           </DropdownMenuItem>
-          <DropdownMenuItem className={`cursor-pointer`} variant="destructive">
-            <Trash />
-            Delete Habit
+          <DropdownMenuItem
+            onSelect={(e) => e.preventDefault()}
+            className={`cursor-pointer`}
+            variant="destructive"
+          >
+            <ConfirmDialog toDelete="habit" onConfirm={onDelete}>
+              <Trash className={`stroke-red-400/70 `} />
+              Delete Habit
+            </ConfirmDialog>
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

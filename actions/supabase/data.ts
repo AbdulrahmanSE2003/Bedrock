@@ -20,11 +20,11 @@ export const getHabits = async () => {
       if (error) throw error;
       return habits;
     },
-    [`habits-${userId}`], 
+    [`habits-${userId}`],
     {
-      revalidate: 86400, 
-      tags: [`habits-list-${userId}`], 
-    }
+      revalidate: 86400,
+      tags: [`habits-list-${userId}`],
+    },
   )();
 
   return cachedData;
@@ -87,4 +87,16 @@ export const getUserId = async () => {
   }
 
   return users;
+};
+
+export const deleteHabitAPI = async (habitId: string) => {
+  const { error } = await supabaseAdmin
+    .from("habits")
+    .delete()
+    .eq("id", habitId);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
 };

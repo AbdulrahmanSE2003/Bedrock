@@ -31,7 +31,7 @@ export function calculateStreak(logs: { completed_at: string }[]) {
   );
 
   let streak = 0;
-  let currentDate = new Date();
+  const currentDate = new Date();
 
   const todayStr = format(currentDate, "yyyy-MM-dd");
   const yesterdayStr = format(subDays(currentDate, 1), "yyyy-MM-dd");
