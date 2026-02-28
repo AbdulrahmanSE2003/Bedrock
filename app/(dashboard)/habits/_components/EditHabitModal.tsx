@@ -8,7 +8,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
@@ -17,42 +16,57 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { bell } from "@/lib/utils";
 import { Habit } from "@/types/habits";
-import { Edit } from "lucide-react";
-import { ReactNode, useRef, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useOptimistic,
+  useState,
+  useTransition,
+} from "react";
 import { toast } from "sonner";
 
 type EditHabitModalProps = {
-  children: ReactNode;
   habit: Habit;
+  open: boolean;
+  onOpenChange: Dispatch<SetStateAction<boolean>>;
 };
 
-const EditHabitModal = ({ children, habit }: EditHabitModalProps) => {
+const EditHabitModal = ({ habit, open, onOpenChange }: EditHabitModalProps) => {
+  const [isPending, startTransition] = useTransition();
   const [habitName, setHabitName] = useState(habit.name);
   const [habitColor, setHabitColor] = useState(habit.color);
 
-  const closeRef = useRef<HTMLButtonElement>(null);
+  const [optimisticHabit, addOptimisticHabit] = useOptimistic(
+    habit,
+    (state, newUpdate: { name: string; color: string }) => ({
+      ...state,
+      name: newUpdate.name,
+      color: newUpdate.color,
+    }),
+  );
 
   const onConfirm = async () => {
-    const res = await editHabit(habit.id, habitName, habitColor);
+    startTransition(async () => {
+      addOptimisticHabit({ name: habitName, color: habitColor });
+      onOpenChange(false); // Close immediately before server action to avoid revalidatePath flicker
 
-    if (res?.error) {
-      toast.error("Failed updating habit data.");
-      console.error(res.error);
-      return;
-    } else {
-      closeRef.current?.click();
-      toast.success("Habit data changed successfully!");
-      bell();
-    }
+      const res = await editHabit(habit.id, habitName, habitColor);
+
+      if (res?.error) {
+        onOpenChange(true); // Re-open on error so user can retry
+        toast.error("Failed updating habit data.");
+      } else {
+        toast.success("Habit data changed successfully!");
+        bell();
+      }
+    });
   };
 
   return (
-    <Dialog>
-      {" "}
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle>Edit Habit</DialogTitle>
           <DialogDescription>
             Update your habit&apos;s name or color to keep your tracker
             organized.
@@ -62,6 +76,11 @@ const EditHabitModal = ({ children, habit }: EditHabitModalProps) => {
           <Field>
             <Label htmlFor="habitName">Habit Name</Label>
             <Input
+              onKeyDown={(e) => {
+                if (e.key === " ") {
+                  e.stopPropagation();
+                }
+              }}
               id="habitName"
               name="habitName"
               defaultValue={habitName}
@@ -73,6 +92,11 @@ const EditHabitModal = ({ children, habit }: EditHabitModalProps) => {
           <Field>
             <Label htmlFor="habitColor">Habit Color</Label>
             <Input
+              onKeyDown={(e) => {
+                if (e.key === " ") {
+                  e.stopPropagation();
+                }
+              }}
               id="habitColor"
               name="habitColor"
               defaultValue={habitColor}
@@ -83,12 +107,14 @@ const EditHabitModal = ({ children, habit }: EditHabitModalProps) => {
           </Field>
         </FieldGroup>
         <DialogFooter className="mt-4">
-          <DialogClose ref={closeRef} asChild>
+          <DialogClose asChild>
             <Button variant="outline" type="button">
               Cancel
             </Button>
           </DialogClose>
-          <Button onClick={onConfirm}>Save changes</Button>
+          <Button onClick={onConfirm} disabled={isPending}>
+            Save changes
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
