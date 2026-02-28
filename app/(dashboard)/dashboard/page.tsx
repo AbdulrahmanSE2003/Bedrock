@@ -1,11 +1,11 @@
 import { getUserId } from "@/actions/supabase/data";
-import CardHeading from "@/app/_components/CardHeading";
-import DigitalClock from "@/app/_components/DigitalClock";
-import GmailOverview from "@/app/_components/GmailOverview";
-import HabitsStats from "@/app/_components/HabitsStats";
+import CardHeading from "@/app/(dashboard)/_components/CardHeading";
+import DigitalClock from "@/app/(dashboard)/_components/DigitalClock";
+import GmailOverview from "@/app/(dashboard)/_components/GmailOverview";
+import HabitsStats from "@/app/(dashboard)/_components/HabitsStats";
 import PageHeading from "@/app/_components/PageHeading";
-import PomodoroWidget from "@/app/_components/PomodoroWidget";
-import TimeProgress from "@/app/_components/TimeProgress";
+import PomodoroWidget from "@/app/(dashboard)/_components/PomodoroWidget";
+import TimeProgress from "@/app/(dashboard)/_components/TimeProgress";
 import { auth } from "@/auth";
 import { ChartBarIcon, Command } from "lucide-react";
 import { Suspense } from "react";
