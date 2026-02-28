@@ -4,19 +4,55 @@ import ProgressBar from "./ProgressBar";
 import { Circle } from "lucide-react";
 
 const getRemainingText = (label: string, value: number) => {
-  if (label === "Year")
-    return `${Math.round(365 - (value / 100) * 365)} days left`;
-  if (label === "Month")
-    return `${Math.round(30 - (value / 100) * 30)} days left`;
-  if (label === "Week") return `${7 - Math.round((value / 100) * 7)} days left`;
+  const now = new Date();
+
+  if (label === "Year") {
+    const isLeap = new Date(now.getFullYear(), 1, 29).getMonth() === 1;
+    const totalDays = isLeap ? 366 : 365;
+    return `${Math.round(totalDays - (value / 100) * totalDays)} days left`;
+  }
+
+  if (label === "Month") {
+    // حساب عدد أيام الشهر الحالي بدقة (فبراير وغيره)
+    const daysInMonth = new Date(
+      now.getFullYear(),
+      now.getMonth() + 1,
+      0,
+    ).getDate();
+    return `${Math.round(daysInMonth - (value / 100) * daysInMonth)} days left`;
+  }
+
+  if (label === "Week") {
+    return `${7 - Math.round((value / 100) * 7)} days left`;
+  }
   return "";
 };
 
+const getCustomWeekProgress = () => {
+  const now = new Date();
+  const day = (now.getDay() + 1) % 7;
+  const hours = now.getHours();
+  return ((day + hours / 24) / 7) * 100;
+};
+
 const TimeProgress = () => {
+  const now = new Date();
+  const daysInMonth = new Date(
+    now.getFullYear(),
+    now.getMonth() + 1,
+    0,
+  ).getDate();
+
   const data = [
     { label: "Year", value: getProgress("year") },
-    { label: "Month", value: getProgress("month") },
-    { label: "Week", value: getProgress("week") },
+    {
+      label: "Month",
+      value: (now.getDate() / daysInMonth) * 100,
+    },
+    {
+      label: "Week",
+      value: getCustomWeekProgress(),
+    },
   ];
 
   return (

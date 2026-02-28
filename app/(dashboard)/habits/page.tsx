@@ -12,7 +12,7 @@ export type NewHabit = {
 
 const Page = () => {
   return (
-    <div className="p-8 space-y-8">
+    <div className="space-y-8">
       <div className={`flex justify-between items-center`}>
         <PageHeading title="Habit Tracker" />
 

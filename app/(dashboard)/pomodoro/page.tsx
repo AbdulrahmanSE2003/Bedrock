@@ -10,7 +10,7 @@ const PomodoroPage = () => {
 
   return (
     <div
-      className={`h-full transition-all duration-700 space-y-14 items-center justify-center p-6 ${background} rounded-xl`}
+      className={`h-full transition-all duration-700 space-y-14 items-center justify-center p-2 ${background} rounded-xl`}
     >
       {/* Pomodoro Header */}
       <PomodoroControls />
