@@ -24,8 +24,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (!user.email) return false;
 
       try {
-        // 1. هنعمل Upsert بناءً على الإيميل فقط
-        // سوبابيز هتدور بالإيميل: لو موجود هتحدث البيانات، لو مش موجود هتكريت جديد
         const { data, error } = await supabaseAdmin
           .from("users")
           .upsert(
@@ -35,14 +33,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               image: user.image,
               last_login: new Date().toISOString(),
             },
-            { onConflict: "email" }, // ده السحر: لو الإيميل موجود، لا تكريت ID جديد
+            { onConflict: "email" },
           )
           .select("id")
           .single();
 
         if (error) throw error;
 
-        // 2. بنثبت الـ UUID الداخلي بتاعنا في كائن الـ user بتاع NextAuth
         user.id = data.id;
         return true;
       } catch (err) {
@@ -52,14 +49,55 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
 
     async jwt({ token, user, account }) {
-      // الـ user.id هنا هو الـ UUID الثابت اللي جبناه من سوبابيز في خطوة الـ signIn
       if (user) {
         token.userId = user.id;
       }
+
+      // On first sign-in, store tokens and expiry from the account object
       if (account) {
         token.accessToken = account.access_token;
+        token.refreshToken = account.refresh_token;
+        // expires_at is in seconds; convert to ms
+        token.accessTokenExpires = account.expires_at
+          ? account.expires_at * 1000
+          : Date.now() + 3600 * 1000;
+        return token;
       }
-      return token;
+
+      // On subsequent calls, return the token as-is if it's still valid
+      if (Date.now() < (token.accessTokenExpires as number)) {
+        return token;
+      }
+
+      // Access token expired — try to refresh it
+      try {
+        const res = await fetch("https://oauth2.googleapis.com/token", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            client_id: process.env.GOOGLE_CLIENT_ID!,
+            client_secret: process.env.GOOGLE_CLIENT_SECRET!,
+            grant_type: "refresh_token",
+            refresh_token: token.refreshToken as string,
+          }),
+        });
+
+        const refreshed = await res.json();
+
+        if (!res.ok) throw refreshed;
+
+        return {
+          ...token,
+          accessToken: refreshed.access_token,
+          // If Google returns a new refresh token, use it; otherwise keep the old one
+          refreshToken: refreshed.refresh_token ?? token.refreshToken,
+          accessTokenExpires: Date.now() + refreshed.expires_in * 1000,
+        };
+      } catch (err) {
+        console.error("Token refresh error:", err);
+        // Return the token with an error flag — session will still exist
+        return { ...token, error: "RefreshAccessTokenError" };
+      }
     },
 
     async session({ session, token }) {
@@ -68,6 +106,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       // @ts-ignore
       session.accessToken = token.accessToken;
+      // @ts-ignore
+      if (token.error) session.error = token.error;
       return session;
     },
   },

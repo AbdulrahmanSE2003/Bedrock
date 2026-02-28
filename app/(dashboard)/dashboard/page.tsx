@@ -9,9 +9,12 @@ import TimeProgress from "@/app/(dashboard)/_components/TimeProgress";
 import { auth } from "@/auth";
 import { ChartBarIcon, Command } from "lucide-react";
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
 
 const page = async () => {
   const session = await auth();
+
+  if (!session?.user) redirect("/");
 
   return (
     <div>
@@ -25,7 +28,13 @@ const page = async () => {
       {/* Dashboard Cards */}
       <div className={`grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6`}>
         {/* Gmail Overview*/}
-        <GmailOverview />
+        <Suspense
+          fallback={
+            <div className="max-md:min-h-100 h-96 bg-sidebar-primary-foreground dark:bg-sidebar-border dark:shadow-zinc-800/25 shadow-zinc-300/50 shadow-lg border border-zinc-400/40 dark:border-zinc-600/50 rounded-xl p-6 grow md:col-span-3 animate-pulse" />
+          }
+        >
+          <GmailOverview />
+        </Suspense>
         {/* Life Pace */}
         <TimeProgress />
 
