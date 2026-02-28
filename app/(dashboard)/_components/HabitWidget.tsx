@@ -10,7 +10,7 @@ const HabitWidget = ({ habit }: HabitWidgetProps) => {
   return (
     <div
       key={habit.id}
-      className={`bg-zinc-400 dark:bg-zinc-800 h-full rounded-xl p-4 flex flex-col items-center justify-start gap-4 capitalize  tracking-wider`}
+      className={`bg-zinc-100 dark:bg-zinc-800 border border-zinc-300/50 dark:border-zinc-700/50 h-full rounded-xl p-4 flex flex-col items-center justify-start gap-4 capitalize  tracking-wider`}
     >
       <div className="flex items-center gap-4">
         <div
@@ -22,7 +22,7 @@ const HabitWidget = ({ habit }: HabitWidgetProps) => {
         </h6>
       </div>
 
-      <p className={`text-5xl font-semibold`}>157</p>
+      <p className={`text-5xl font-semibold`}>{count}</p>
 
       {count > 0 && (
         <div className="mt-1 flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-[10px] font-bold text-zinc-600 dark:text-zinc-300">

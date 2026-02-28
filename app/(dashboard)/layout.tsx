@@ -15,7 +15,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <TimerController />
       <SonnerToaster />
       <AppSidebar />
-      <Azkar />
       <div className={`flex flex-col w-full relative`}>
         <Navbar />
         <main className={`p-6 min-h-[calc(100vh-48px)]`}>{children}</main>

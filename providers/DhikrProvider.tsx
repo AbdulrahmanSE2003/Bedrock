@@ -1,11 +1,12 @@
 "use client";
 
-import { useDhikrTimer } from "@/hooks/useDhikr";
+import { useDhikr } from "@/hooks/useDhikr";
+import { bell } from "@/lib/utils";
 import { MoonIcon } from "lucide-react";
 import { toast } from "sonner";
 
 export default function DhikrProvider() {
-  useDhikrTimer((message) => {
+  useDhikr((message) => {
     toast.warning(message, {
       duration: 10000,
       icon: <MoonIcon />,
@@ -13,6 +14,7 @@ export default function DhikrProvider() {
       className: "bg-amber-500",
     });
   });
+  bell();
 
   return null;
 }

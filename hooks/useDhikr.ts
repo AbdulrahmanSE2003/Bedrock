@@ -4,7 +4,7 @@
 import { dhikrsList } from "@/store/useDhikrStore";
 import { useEffect, useCallback } from "react";
 
-export const useDhikrTimer = (onNotify: (message: string) => void) => {
+export const useDhikr = (onNotify: (message: string) => void) => {
   const triggerRandomDhikr = useCallback(() => {
     const randomIdx = Math.floor(Math.random() * dhikrsList.length);
     onNotify(dhikrsList[randomIdx]);

@@ -22,7 +22,7 @@ const DigitalClock = () => {
   const amPm = time.getHours() >= 12 ? "PM" : "AM";
 
   return (
-    <div className="flex flex-col items-end justify-center py-4">
+    <div className="flex flex-col items-end justify-center">
       <div className="flex items-end gap-2">
         <h1 className="text-2xl font-bold tracking-tighter leading-none tabular-nums text-black dark:text-white">
           {formattedTime}

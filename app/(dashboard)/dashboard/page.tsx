@@ -16,7 +16,7 @@ const page = async () => {
   return (
     <div>
       {/* Dashboard Intro */}
-      <div className={`flex justify-between items-center`}>
+      <div className={`flex justify-between items-center mb-2`}>
         <PageHeading title={`Welcome, ${session?.user?.name}` || "Guest"} />
         {/* Digital Clock */}
         <DigitalClock />
