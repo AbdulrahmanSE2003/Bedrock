@@ -9,7 +9,7 @@ import CustomHeatmap from "./CustomHeatmap";
 import { checkHabitAction } from "@/actions/habits";
 import { Habit } from "@/types/habits";
 import HabitMenu from "./HabitMenu";
-import { calculateStreak } from "@/lib/utils";
+import { bell, calculateStreak } from "@/lib/utils";
 
 type HabitCardProps = {
   habit: Habit;
@@ -44,6 +44,7 @@ const HabitCard = ({ habit }: HabitCardProps) => {
           toast.error(result.error);
         } else {
           toast.success(`Progress saved for ${habit.name}!`);
+          bell();
         }
       } catch (err) {
         toast.error("Something went wrong with the connection.");

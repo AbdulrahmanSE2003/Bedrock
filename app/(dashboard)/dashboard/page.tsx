@@ -2,11 +2,13 @@ import { getUserId } from "@/actions/supabase/data";
 import CardHeading from "@/app/_components/CardHeading";
 import DigitalClock from "@/app/_components/DigitalClock";
 import GmailOverview from "@/app/_components/GmailOverview";
+import HabitsStats from "@/app/_components/HabitsStats";
 import PageHeading from "@/app/_components/PageHeading";
 import PomodoroWidget from "@/app/_components/PomodoroWidget";
 import TimeProgress from "@/app/_components/TimeProgress";
 import { auth } from "@/auth";
-import { Command, Sprout } from "lucide-react";
+import { ChartBarIcon, Command } from "lucide-react";
+import { Suspense } from "react";
 
 const page = async () => {
   const session = await auth();
@@ -33,13 +35,14 @@ const page = async () => {
         <div
           className={`max-md:min-h-100 bg-primary-foreground dark:-sidebar-border dark:shadow-zinc-800/25  shadow-zinc-300/50 shadow-lg border border-zinc-400/40 dark:border-zinc-600/50 rounded-xl p-6 h-64`}
         >
-          <CardHeading Icon={Command}>Quick actions</CardHeading>
+          <CardHeading Icon={ChartBarIcon}>Radar Chart</CardHeading>
         </div>
-        <div
-          className={`max-md:min-h-100 bg-primary-foreground dark:-sidebar-border  dark:shadow-zinc-800/25  shadow-zinc-300/50 shadow-lg border border-zinc-400/40 dark:border-zinc-600/50 rounded-xl p-6 h-64 md:col-span-2`}
-        >
-          <CardHeading Icon={Sprout}>Daily Habits</CardHeading>
-        </div>
+
+        {/* Habits Stats */}
+
+        <Suspense fallback={<div>Loading...</div>}>
+          <HabitsStats />
+        </Suspense>
       </div>
     </div>
   );
