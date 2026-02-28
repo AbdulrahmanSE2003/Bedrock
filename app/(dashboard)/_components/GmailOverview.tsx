@@ -4,8 +4,10 @@ import CardHeading from "./CardHeading";
 import { fetchRecentEmails } from "@/actions/gmail";
 import MailsList from "./MailsList";
 
+export const revalidate = 900;
+
 const GmailOverview = async () => {
-  noStore();
+  // noStore();
   const mails = await fetchRecentEmails();
 
   return (

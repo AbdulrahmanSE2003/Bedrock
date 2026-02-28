@@ -9,11 +9,11 @@ export async function fetchRecentEmails() {
 
   if (!token) return [];
 
-  // 1. نجيب قائمة الـ IDs
   const listRes = await fetch(
     "https://gmail.googleapis.com/gmail/v1/users/me/messages?maxResults=10",
     {
       headers: { Authorization: `Bearer ${token}` },
+      next: { revalidate: 600 },
     },
   );
   const listData = await listRes.json();
@@ -28,6 +28,7 @@ export async function fetchRecentEmails() {
           `https://gmail.googleapis.com/gmail/v1/users/me/messages/${msg.id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
+            next: { revalidate: 600 },
           },
         );
 
@@ -41,7 +42,8 @@ export async function fetchRecentEmails() {
         const subject =
           headers.find((h: any) => h.name === "Subject")?.value || "No Subject";
         const from =
-          headers.find((h: any) => h.name === "From")?.value || "Unknown Sender";
+          headers.find((h: any) => h.name === "From")?.value ||
+          "Unknown Sender";
 
         return { id: msg.id, subject, from, snippet: detailData.snippet ?? "" };
       } catch {

@@ -10,6 +10,7 @@ import {
 import { cn } from "@/lib/utils";
 
 import {
+  Calendar,
   Github,
   KanbanSquare,
   LayoutDashboard,
@@ -23,9 +24,10 @@ import { usePathname } from "next/navigation";
 
 const tabs = [
   { name: "Dashboard", icon: LayoutDashboard, url: "/dashboard" },
-  { name: "Tasks", icon: KanbanSquare, url: "/kanban" },
+  { name: "Tasks", icon: KanbanSquare, url: "/tasks" },
   { name: "Habits", icon: Sprout, url: "/habits" },
   { name: "Pomodoro", icon: Timer, url: "/pomodoro" },
+  { name: "Calendar", icon: Calendar, url: "/calendar" },
   { name: "Github", icon: Github, url: "/github" },
   { name: "Content", icon: Notebook, url: "/content" },
   { name: "Settings", icon: Settings2Icon, url: "/settings" },
