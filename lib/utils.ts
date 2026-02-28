@@ -53,6 +53,8 @@ export function calculateStreak(logs: { completed_at: string }[]) {
 }
 
 export function bell() {
-  const notify = new Audio("/sounds/notification.wav");
-  notify.play().catch((e) => console.log("Notify fail", e));
+  if (typeof window !== "undefined") {
+    const notify = new Audio("/sounds/notification.wav");
+    notify.play().catch((e) => console.log("Notify fail (Need user interaction first)", e));
+  }
 }
