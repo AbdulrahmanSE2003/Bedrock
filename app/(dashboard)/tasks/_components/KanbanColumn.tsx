@@ -25,6 +25,7 @@ const KanbanColumn = ({ title, id }: Props) => {
         </div>
       </div>
 
+      {/* TODO: Make Dialog */}
       {/* Add Task Button */}
       <button className="flex items-center gap-2 cursor-pointer w-full p-2 mb-4 border border-dashed border-zinc-300 dark:border-zinc-800 rounded-md text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-600 hover:bg-zinc-100/50 dark:hover:bg-zinc-900/50 transition-all text-xs font-medium group">
         <Plus
