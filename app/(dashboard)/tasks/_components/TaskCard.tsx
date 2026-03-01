@@ -25,7 +25,12 @@ const TaskCard = ({ task, index }: { task: Task; index: number }) => {
             snapshot.isDragging ? "shadow-xl z-50" : "shadow-none",
           )}
         >
-          <Card className="bg-white dark:bg-zinc-950 p-4 min-h-20 rounded-md flex flex-col justify-center border-zinc-200 dark:border-zinc-900 hover:border-zinc-400/60 dark:hover:border-zinc-700 hover:bg-zinc-50/40 dark:hover:bg-zinc-900/40 transition-all duration-300 cursor-grab group overflow-hidden">
+          <Card
+            className={cn(
+              "bg-white dark:bg-zinc-950 p-4 min-h-20 rounded-md flex flex-col justify-center border-zinc-200 dark:border-zinc-900 hover:border-zinc-400/60 dark:hover:border-zinc-700 hover:bg-zinc-50/40 dark:hover:bg-zinc-900/40 transition-all duration-300 cursor-grab group overflow-hidden",
+              task.status === "done" ? "opacity-50 cursor-default" : "",
+            )}
+          >
             {/* Header: Priority & Source */}
             <div className="w-full flex justify-between items-center mb-2">
               <Badge
@@ -51,11 +56,19 @@ const TaskCard = ({ task, index }: { task: Task; index: number }) => {
             </div>
 
             {/* Body: Checkbox & Title */}
-            <div className="relative flex items-center gap-2 overflow-hidden">
+            <div className="relative flex items-center gap-3 overflow-hidden">
               <div className="flex items-center justify-center shrink-0 transition-all duration-300 opacity-0 -translate-x-6 group-hover:opacity-100 group-hover:translate-x-0">
-                <Checkbox className="rounded-[4px] transition-colors duration-300 border-zinc-300 dark:border-zinc-700" />
+                <Checkbox
+                  defaultChecked={task.status === "done"}
+                  className="rounded-[4px] transition-colors duration-300 border-zinc-300 dark:border-zinc-700"
+                />
               </div>
-              <p className="flex-1 text-sm font-medium leading-snug text-zinc-700 dark:text-zinc-300 transition-all duration-300 -translate-x-5 group-hover:translate-x-0 line-clamp-2">
+              <p
+                className={cn(
+                  "flex-1 text-sm font-medium leading-snug text-zinc-700 dark:text-zinc-300 transition-all duration-300 -translate-x-5 group-hover:translate-x-0 line-clamp-2",
+                  task.status === "done" ? "line-through" : "",
+                )}
+              >
                 {task.title}
               </p>
             </div>

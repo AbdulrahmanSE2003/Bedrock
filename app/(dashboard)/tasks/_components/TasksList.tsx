@@ -2,6 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import KanbanBoard from "./KanbanBoard";
+import TableView from "./TableView";
 
 const TasksList = () => {
   const searchparams = useSearchParams();
@@ -10,7 +11,7 @@ const TasksList = () => {
   return (
     <div>
       {currentView === "table" ? (
-        <div>table</div>
+        <TableView />
       ) : currentView === "database" ? (
         <div>database</div>
       ) : (

@@ -24,10 +24,6 @@ const KanbanBoard = () => {
     )
       return;
 
-    console.log(
-      `Task Moved ${draggableId} from ${source.droppableId} to ${destination.droppableId}`,
-    );
-
     moveTask(draggableId, destination.droppableId, destination.index);
   };
 
