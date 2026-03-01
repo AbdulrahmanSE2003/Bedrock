@@ -10,7 +10,7 @@ const HabitsStats = async () => {
 
   return (
     <div
-      className={`max-md:min-h-100 bg-primary-foreground dark:-sidebar-border  dark:shadow-zinc-800/25  shadow-zinc-300/50 shadow-lg border border-zinc-400/40 dark:border-zinc-600/50 rounded-xl p-6 h-64 md:col-span-2 flex flex-col gap-3 `}
+      className={`max-md:min-h-100 bg-primary-foreground dark:bg-sidebar-border dark:-sidebar-border  dark:shadow-zinc-800/25  shadow-zinc-300/50 shadow-lg border border-zinc-400/40 dark:border-zinc-600/50 rounded-xl p-6 h-64 md:col-span-2 flex flex-col gap-3 `}
     >
       <CardHeading Icon={Sprout}>Habits Progress</CardHeading>
 

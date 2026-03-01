@@ -35,7 +35,6 @@ const ViewMode = () => {
       <SelectContent>
         <SelectGroup>
           <SelectItem value="kanban">Kanban</SelectItem>
-          <SelectItem value="database">Database</SelectItem>
           <SelectItem value="table">Table</SelectItem>
         </SelectGroup>
       </SelectContent>

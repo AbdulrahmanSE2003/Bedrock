@@ -8,17 +8,7 @@ const TasksList = () => {
   const searchparams = useSearchParams();
 
   const currentView = searchparams.get("view") || "kanban";
-  return (
-    <div>
-      {currentView === "table" ? (
-        <TableView />
-      ) : currentView === "database" ? (
-        <div>database</div>
-      ) : (
-        <KanbanBoard />
-      )}
-    </div>
-  );
+  return <div>{currentView === "table" ? <TableView /> : <KanbanBoard />}</div>;
 };
 
 export default TasksList;
