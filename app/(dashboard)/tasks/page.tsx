@@ -1,24 +1,17 @@
 import PageHeading from "@/app/_components/PageHeading";
-import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Plus } from "lucide-react";
 import KanbanColumn from "./_components/KanbanColumn";
+import ViewMode from "./_components/ViewMode";
+import KanbanBoard from "./_components/KanbanBoard";
 
 const page = async () => {
   return (
-    <div className="flex flex-col overflow-hidden">
-      <div className="flex justify-between items-center mb-6">
+    <div className="flex flex-col overflow-hidden gap-3">
+      <div className="flex justify-between items-center py-2">
         <PageHeading title="Kanban Board" />
+        <ViewMode />
       </div>
 
-      {/* Kanban */}
-      <div className={`grid md:grid-cols-2 lg:grid-cols-4 items-stretch gap-4`}>
-        {/* Column */}
-        {["Backlog", "TO-DO", "In-Progress", "Done"].map((col, i) => (
-          <KanbanColumn key={i} title={col} />
-        ))}
-      </div>
+      <KanbanBoard />
     </div>
   );
 };

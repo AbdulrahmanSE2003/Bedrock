@@ -1,81 +1,57 @@
 import { Plus } from "lucide-react";
 import TaskCard from "./TaskCard";
+import { Droppable } from "@hello-pangea/dnd";
+import { mockTasks } from "@/store/useTaskStore";
 
-const mockTasks = [
-  {
-    id: "1",
-    title: "Finish the Kanban UI integration",
-    priority: "High",
-    source: "local",
-    status: "backlog",
-  },
-  {
-    id: "2",
-    title: "Sync Google Tasks API with Supabase",
-    priority: "Medium",
-    source: "google",
-    status: "in-progress",
-  },
-  {
-    id: "3",
-    title: "Fix Tailwind v4 compiler issues",
-    priority: "High",
-    source: "local",
-    status: "backlog",
-  },
-  {
-    id: "4",
-    title: "Research Zustand persist middleware",
-    priority: "Low",
-    source: "google",
-    status: "in-review",
-  },
-  {
-    id: "5",
-    title: "Design a better TaskCard component",
-    priority: "Medium",
-    source: "local",
-    status: "done",
-  },
-];
+interface Props {
+  title: string;
+  id: string;
+}
 
-const KanbanColumn = ({ title }: { title?: string }) => {
+const KanbanColumn = ({ title, id }: Props) => {
+  const tasks = mockTasks.filter((task) => task.status === title);
   return (
-    <div
-      className={`space-y-4 border border-zinc-400/80 dark:border-zinc-900 p-2.5 rounded-md`}
-    >
-      {/* Column Controls */}
-      <div className={`flex flex-col gap-2`}>
-        {/* Column Header */}
-        <h3
-          className={`font-semibold p-1.5 rounded-sm bg-zinc-200/50 dark:bg-zinc-900`}
-        >
-          {title}
-        </h3>
-        {/* Add Task */}
-
-        <button
-          className={`text-left bg-transparent 
-                border border-zinc-400/80 dark:border-zinc-700 hover:border-zinc-500 dark:hover:border-zinc-300 
-                rounded-sm p-1.5 font-medium text-sm text-zinc-600 flex justify-start items-center cursor-pointer transition-colors duration-500 group`}
-        >
-          <Plus
-            className={`stroke-zinc-400/80 dark:stroke-zinc-700 group-hover:stroke-zinc-600 dark:group-hover:stroke-zinc-300 transition-colors duration-500`}
-          />
-          <span
-            className={`text-zinc-500 group-hover:text-zinc-800 dark:group-hover:text-zinc-300 transition-colors duration-500`}
-          >
-            Add Task
+    <div className="space-y-5 w-full min-w-65 max-w-87.5 h-fit max-h-125 bg-zinc-50/50 dark:bg-zinc-950/20 rounded-lg border border-zinc-200 dark:border-zinc-900/50 p-3 overflow-y-auto">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4 px-1 ">
+        <div className="flex items-center gap-2">
+          <h3 className="text-sm font-bold text-zinc-700 dark:text-zinc-300 capitalize">
+            {title}
+          </h3>
+          <span className="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-500 px-1.5 py-0.5 rounded-full font-mono">
+            {tasks.length}
           </span>
-        </button>
+        </div>
       </div>
 
-      {/* Column Tasks */}
-      <div className={`flex flex-col gap-2.5 overflow-y-auto max-h-110`}>
-        {mockTasks.map((task, i) => (
-          <TaskCard key={i} task={task} />
-        ))}
-      </div>
+      {/* Add Task Button */}
+      <button className="flex items-center gap-2 cursor-pointer w-full p-2 mb-4 border border-dashed border-zinc-300 dark:border-zinc-800 rounded-md text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-600 hover:bg-zinc-100/50 dark:hover:bg-zinc-900/50 transition-all text-xs font-medium group">
+        <Plus
+          size={14}
+          className="group-hover:rotate-90 transition-transform duration-300"
+        />
+        Add Task
+      </button>
+
+      {/* Droppable Area */}
+      <Droppable droppableId={id}>
+        {(provided, snapshot) => (
+          <div
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            className={`flex flex-col gap-3 flex-1 h-fit min-h-1 transition-colors duration-300 rounded-md ${
+              snapshot.isDraggingOver
+                ? "bg-zinc-200/30 dark:bg-zinc-900/40"
+                : ""
+            }`}
+          >
+            {tasks.map((task, index) => (
+              <TaskCard key={task.id} task={task} index={index} />
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
     </div>
   );
 };
