@@ -1,7 +1,7 @@
 import { Plus } from "lucide-react";
 import TaskCard from "./TaskCard";
 import { Droppable } from "@hello-pangea/dnd";
-import { mockTasks } from "@/store/useTaskStore";
+import { useTaskStore } from "@/store/useTaskStore";
 
 interface Props {
   title: string;
@@ -9,7 +9,8 @@ interface Props {
 }
 
 const KanbanColumn = ({ title, id }: Props) => {
-  const tasks = mockTasks.filter((task) => task.status === title);
+  const { tasks } = useTaskStore();
+  const filteredTasks = tasks.filter((task) => task.status === title);
   return (
     <div className="space-y-5 w-full min-w-65 max-w-87.5 h-fit max-h-125 bg-zinc-50/50 dark:bg-zinc-950/20 rounded-lg border border-zinc-200 dark:border-zinc-900/50 p-3 overflow-y-auto">
       {/* Header */}
@@ -45,7 +46,7 @@ const KanbanColumn = ({ title, id }: Props) => {
                 : ""
             }`}
           >
-            {tasks.map((task, index) => (
+            {filteredTasks.map((task, index) => (
               <TaskCard key={task.id} task={task} index={index} />
             ))}
             {provided.placeholder}

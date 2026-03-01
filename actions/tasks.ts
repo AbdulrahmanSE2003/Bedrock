@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export async function fetchGoogleTasks() {
   const session = await auth();
@@ -42,4 +43,15 @@ export async function fetchGoogleTasks() {
     console.error("Google Tasks API Error:", error);
     return { error: error.message };
   }
+}
+
+export async function fetchAllTasks() {
+  const { data: tasks, error } = await supabaseAdmin.from("tasks").select("*");
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  return tasks;
 }

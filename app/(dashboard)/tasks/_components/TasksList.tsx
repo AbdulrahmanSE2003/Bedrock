@@ -1,14 +1,15 @@
-"use client";
+import { fetchAllTasks } from "@/actions/tasks";
+import TaskView from "./TaskView";
 
-import { useSearchParams } from "next/navigation";
-import KanbanBoard from "./KanbanBoard";
-import TableView from "./TableView";
+const TasksList = async () => {
+  const tasks = await fetchAllTasks();
+  console.log(tasks);
 
-const TasksList = () => {
-  const searchparams = useSearchParams();
-
-  const currentView = searchparams.get("view") || "kanban";
-  return <div>{currentView === "table" ? <TableView /> : <KanbanBoard />}</div>;
+  return (
+    <>
+      <TaskView tasks={tasks} />
+    </>
+  );
 };
 
 export default TasksList;
