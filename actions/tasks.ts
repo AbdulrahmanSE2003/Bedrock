@@ -50,6 +50,12 @@ export async function fetchGoogleTasks() {
 }
 
 export async function fetchAllTasks() {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return { error: "You must be logged in" };
+  }
   const { data: tasks, error } = await supabaseAdmin.from("tasks").select("*");
 
   if (error) {
@@ -67,6 +73,13 @@ export async function updateTask(
   newStatus: "backlog" | "to-do" | "in-progress" | "done",
 ) {
   try {
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+      return { error: "You must be logged in" };
+    }
+
     const { error } = await supabaseAdmin
       .from("tasks")
       .update({ title: newTitle, priority: newPriority, status: newStatus })
@@ -82,5 +95,28 @@ export async function updateTask(
     return { success: true };
   } catch {
     return { error: "Failed to update task." };
+  }
+}
+
+export async function deleteTask(id: string) {
+  try {
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+      return { error: "You must be logged in" };
+    }
+
+    const { error } = await supabaseAdmin.from("tasks").delete().eq("id", id);
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    revalidatePath("/tasks");
+    return { success: true };
+  } catch {
+    return { error: "Failed to delete task." };
   }
 }

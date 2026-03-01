@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Trash2, Save, Edit } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
-import { updateTask } from "@/actions/tasks";
+import { deleteTask, updateTask } from "@/actions/tasks";
 import { bell } from "@/lib/utils";
 
 const TaskModal = ({ task }: { task?: Task }) => {
@@ -54,7 +54,15 @@ const TaskModal = ({ task }: { task?: Task }) => {
   };
 
   const handleDelete = async () => {
+    if (!task) return;
     const res = await deleteTask(task?.id);
+
+    if (res?.success) {
+      toast.success("Task updated successfully!");
+      bell();
+    } else {
+      toast.error(`Failed to update task.`);
+    }
   };
 
   return (
