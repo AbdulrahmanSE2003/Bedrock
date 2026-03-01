@@ -1,7 +1,6 @@
 import PageHeading from "@/app/_components/PageHeading";
-import KanbanColumn from "./_components/KanbanColumn";
 import ViewMode from "./_components/ViewMode";
-import KanbanBoard from "./_components/KanbanBoard";
+import TasksList from "./_components/TasksList";
 
 const page = async () => {
   return (
@@ -11,7 +10,7 @@ const page = async () => {
         <ViewMode />
       </div>
 
-      <KanbanBoard />
+      <TasksList />
     </div>
   );
 };
