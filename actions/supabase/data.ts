@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { updatedTask } from "@/types/tasks";
 import { Session } from "inspector/promises";
 
 import { unstable_cache } from "next/cache";
@@ -100,3 +101,8 @@ export const deleteHabitAPI = async (habitId: string) => {
     return;
   }
 };
+
+//Tasks Section
+// export async function updateTask(data: updatedTask) {
+
+// }

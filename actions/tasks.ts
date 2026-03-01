@@ -1,5 +1,9 @@
+"use server";
+
 import { auth } from "@/auth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { updatedTask } from "@/types/tasks";
+import { revalidatePath } from "next/cache";
 
 export async function fetchGoogleTasks() {
   const session = await auth();
@@ -54,4 +58,29 @@ export async function fetchAllTasks() {
   }
 
   return tasks;
+}
+
+export async function updateTask(
+  id: string,
+  newTitle: string,
+  newPriority: "low" | "medium" | "high",
+  newStatus: "backlog" | "to-do" | "in-progress" | "done",
+) {
+  try {
+    const { error } = await supabaseAdmin
+      .from("tasks")
+      .update({ title: newTitle, priority: newPriority, status: newStatus })
+      .eq("id", id)
+      .select();
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    revalidatePath("/tasks");
+    return { success: true };
+  } catch {
+    return { error: "Failed to update task." };
+  }
 }
