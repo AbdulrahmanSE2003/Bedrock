@@ -6,10 +6,10 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { Task } from "@/types/tasks";
 
 export const priorityColors = {
-  High: "text-red-600 bg-red-50 dark:bg-red-950/30 dark:text-red-400 border-red-200 dark:border-red-900",
-  Medium:
+  high: "text-red-600 bg-red-50 dark:bg-red-950/30 dark:text-red-400 border-red-200 dark:border-red-900",
+  medium:
     "text-amber-600 bg-amber-50 dark:bg-amber-950/30 dark:text-amber-400 border-amber-200 dark:border-amber-900",
-  Low: "text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900",
+  low: "text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900",
 };
 
 const TaskRow = ({ task }: { task: Task }) => {

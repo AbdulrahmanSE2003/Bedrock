@@ -7,9 +7,9 @@ import { Draggable } from "@hello-pangea/dnd";
 
 const TaskCard = ({ task, index }: { task: Task; index: number }) => {
   const priorities = {
-    High: "bg-red-500 hover:bg-red-600",
-    Medium: "bg-amber-500 hover:bg-amber-600",
-    Low: "bg-emerald-500 hover:bg-emerald-600",
+    high: "bg-red-500 hover:bg-red-600",
+    medium: "bg-amber-500 hover:bg-amber-600",
+    low: "bg-emerald-500 hover:bg-emerald-600",
   };
 
   return (
