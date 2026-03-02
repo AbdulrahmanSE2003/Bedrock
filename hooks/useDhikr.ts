@@ -11,7 +11,7 @@ export const useDhikr = (onNotify: (message: string) => void) => {
   }, [onNotify]);
 
   useEffect(() => {
-    const minMinutes = 2;
+    const minMinutes = 3;
     const maxMinutes = 15;
     const randomTime =
       Math.floor(Math.random() * (maxMinutes - minMinutes + 1) + minMinutes) *

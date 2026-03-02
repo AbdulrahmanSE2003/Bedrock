@@ -34,7 +34,6 @@ const KanbanColumn = ({ title, id, color }: Props) => {
         </div>
       </div>
 
-      {/* TODO: Make Dialog */}
       {/* Add Task Button */}
       <Dialog>
         <DialogTrigger asChild>

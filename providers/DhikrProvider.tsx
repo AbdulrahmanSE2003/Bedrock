@@ -7,12 +7,10 @@ import { toast } from "sonner";
 
 export default function DhikrProvider() {
   useDhikr((message) => {
-  bell();
+    bell();
     toast.warning(message, {
-      duration: 10000,
+      duration: 15000,
       icon: <MoonIcon />,
-      richColors: true,
-      className: "bg-amber-500",
     });
   });
 

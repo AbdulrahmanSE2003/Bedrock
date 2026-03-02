@@ -48,9 +48,6 @@ import { create } from "zustand";
 
 interface TasksInterface {
   tasks: Task[];
-  isLoading: boolean;
-  setIsLoading: (loading: boolean) => void;
-  addTask: (newTask: Task) => void;
   setTasks: (tasks: Task[]) => void;
   moveTask: (taskId: string, newStatus: string, newIndex: number) => void;
 }
@@ -58,14 +55,7 @@ interface TasksInterface {
 export const useTaskStore = create<TasksInterface>((set) => ({
   tasks: [],
 
-  isLoading: false,
-
-  setTasks: (tasks) => set({ tasks, isLoading: false }),
-
-  setIsLoading: (loading) => set({ isLoading: !loading }),
-
-  addTask: (newTask: Task) =>
-    set((state) => ({ tasks: [...state.tasks, newTask] })),
+  setTasks: (tasks) => set({ tasks }),
 
   moveTask: (taskId, newStatus, newIndex) =>
     set((state) => {
