@@ -4,17 +4,24 @@ import { Droppable } from "@hello-pangea/dnd";
 import { useTaskStore } from "@/store/useTaskStore";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import TaskModal from "./TaskModal";
+import { cn } from "@/lib/utils";
 
 interface Props {
   title: string;
   id: string;
+  color: string;
 }
 
-const KanbanColumn = ({ title, id }: Props) => {
+const KanbanColumn = ({ title, id, color }: Props) => {
   const { tasks } = useTaskStore();
   const filteredTasks = tasks.filter((task) => task.status === title);
   return (
-    <div className="space-y-5 w-full min-w-65 max-w-87.5 h-fit max-h-125 bg-zinc-50/50 dark:bg-zinc-950/20 rounded-lg border border-zinc-200 dark:border-zinc-900/50 p-3 overflow-y-auto">
+    <div
+      className={cn(
+        "space-y-5 w-full min-w-65 h-fit max-h-136  rounded-lg border border-zinc-200 dark:border-zinc-900/50 p-3 overflow-y-auto",
+        color,
+      )}
+    >
       {/* Header */}
       <div className="flex items-center justify-between mb-4 px-1 ">
         <div className="flex items-center gap-2">

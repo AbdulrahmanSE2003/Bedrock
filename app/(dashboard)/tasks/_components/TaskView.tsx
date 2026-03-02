@@ -8,7 +8,7 @@ import { Task } from "@/types/tasks";
 import { useEffect } from "react";
 
 const TaskView = ({ tasks }: { tasks: Task[] }) => {
-  const { isLoading, setTasks, setIsLoading } = useTaskStore();
+  const { setTasks } = useTaskStore();
   const searchparams = useSearchParams();
 
   useEffect(() => {
