@@ -1,10 +1,15 @@
-import { Plus } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import TaskCard from "./TaskCard";
 import { Droppable } from "@hello-pangea/dnd";
 import { useTaskStore } from "@/store/useTaskStore";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import TaskModal from "./TaskModal";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import ConfirmDialog from "../../_components/ConfirmDialog";
+import { bulkDelete } from "@/actions/tasks";
+import { toast } from "sonner";
 
 interface Props {
   title: string;
@@ -15,6 +20,19 @@ interface Props {
 const KanbanColumn = ({ title, id, color }: Props) => {
   const { tasks } = useTaskStore();
   const filteredTasks = tasks.filter((task) => task.status === title);
+
+  const handleBulkDelete = async () => {
+    const ids = filteredTasks.map((task) => task.id);
+    console.log(ids);
+
+    const res = await bulkDelete(ids);
+
+    if (res?.error) {
+      toast.error("Operation failed.");
+    } else {
+      toast.success("Tasks deleted Successfully!");
+    }
+  };
   return (
     <div
       className={cn(
@@ -32,6 +50,18 @@ const KanbanColumn = ({ title, id, color }: Props) => {
             {filteredTasks.length}
           </span>
         </div>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button
+              variant={"ghost"}
+              size={"icon"}
+              className={`hover:text-destructive/80 transition-colors duration-300 hover:border-destructive/10 border border-zinc-300 dark:border-zinc-700`}
+            >
+              <Trash2 className={`size-4`} />
+            </Button>
+          </AlertDialogTrigger>
+          <ConfirmDialog title={title} onConfirm={handleBulkDelete} />
+        </AlertDialog>
       </div>
 
       {/* Add Task Button */}

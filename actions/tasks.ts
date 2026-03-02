@@ -2,6 +2,7 @@
 
 import { auth } from "@/auth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { Task } from "@/types/tasks";
 import { revalidatePath } from "next/cache";
 
 export async function fetchGoogleTasks() {
@@ -180,5 +181,33 @@ export async function changeStatus(
   } catch (error) {
     console.error(error);
     return { error: "failed to create Task." };
+  }
+}
+
+export async function bulkDelete(taskIds: string[]) {
+  try {
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+      return { error: "You must be logged in" };
+    }
+    if (taskIds.length === 0) return { success: true };
+
+    const { error } = await supabaseAdmin
+      .from("tasks")
+      .delete()
+      .in("id", taskIds)
+      .eq("user_id", userId);
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+    revalidatePath("/tasks");
+    return { success: true };
+  } catch (error) {
+    console.error(error);
+    return { error: true };
   }
 }

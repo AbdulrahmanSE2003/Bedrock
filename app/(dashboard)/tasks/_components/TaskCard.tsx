@@ -21,9 +21,10 @@ const TaskCard = ({
   color: string;
 }) => {
   const priorities = {
-    high: "bg-red-500 hover:bg-red-600",
-    medium: "bg-amber-500 hover:bg-amber-600",
-    low: "bg-emerald-500 hover:bg-emerald-600",
+    high: "bg-red-500 hover:bg-red-600 dark:bg-red-500/80 dark:hover:bg-red-500",
+    medium:
+      "bg-amber-500 hover:bg-amber-600 dark:bg-amber-500/80 dark:hover:bg-amber-500",
+    low: "bg-emerald-500 hover:bg-emerald-600 dark:bg-emerald-500/80 dark:hover:bg-emerald-500",
   };
 
   const handleCheck = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -56,7 +57,7 @@ const TaskCard = ({
             <DialogTrigger asChild>
               <Card
                 className={cn(
-                  "bg-white dark:bg-zinc-950 p-4 min-h-20 rounded-md flex flex-col justify-center border-zinc-200 dark:border-zinc-900 hover:border-zinc-400/60 dark:hover:border-zinc-700 hover:bg-zinc-50/40 dark:hover:bg-zinc-900/40 transition-all duration-300 cursor-grab group overflow-hidden",
+                  "bg-white dark:bg-zinc-950 p-4 min-h-20 rounded-md flex flex-col justify-center border-zinc-200 dark:border-zinc-900 hover:border-zinc-400/60 dark:hover:border-zinc-700 hover:bg-zinc-50/40 dark:hover:bg-zinc-900/10 transition-all duration-300 cursor-grab group overflow-hidden",
                   task.status === "done" ? "opacity-50 cursor-default" : "",
                   color,
                 )}
@@ -65,7 +66,7 @@ const TaskCard = ({
                 <div className="w-full flex justify-between items-center mb-2">
                   <Badge
                     className={cn(
-                      "text-[10px] px-2 py-0 h-5 font-bold border-none capitalize text-background",
+                      "text-[10px] px-2 py-0 h-5 font-bold border-none capitalize text-background transition-colors duration-300",
                       priorities[task.priority as keyof typeof priorities],
                     )}
                   >
