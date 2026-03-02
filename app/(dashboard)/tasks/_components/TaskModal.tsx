@@ -61,7 +61,7 @@ const TaskModal = ({ task, col }: { task?: Task; col?: string }) => {
           setPriority("low");
           setStatus(col || "backlog");
         }
-      }, 200); // 200ms كافية جداً إن المودال يختفي تماماً
+      }, 200);
     } else {
       toast.error(`Operation failed.`);
     }

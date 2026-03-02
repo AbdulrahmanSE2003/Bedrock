@@ -1,15 +1,21 @@
+"use client";
+
+import { useMemo } from "react";
 import { Plus, Trash2 } from "lucide-react";
-import TaskCard from "./TaskCard";
 import { Droppable } from "@hello-pangea/dnd";
+import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
+
 import { useTaskStore } from "@/store/useTaskStore";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import TaskModal from "./TaskModal";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import ConfirmDialog from "../../_components/ConfirmDialog";
+import { cn, getSortedTasks, priorityOrder, sourceOrder } from "@/lib/utils";
 import { bulkDelete } from "@/actions/tasks";
-import { toast } from "sonner";
+
+import TaskCard from "./TaskCard";
+import TaskModal from "./TaskModal";
+import ConfirmDialog from "../../_components/ConfirmDialog";
+import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   title: string;
@@ -18,56 +24,64 @@ interface Props {
 }
 
 const KanbanColumn = ({ title, id, color }: Props) => {
-  const { tasks } = useTaskStore();
-  const filteredTasks = tasks.filter((task) => task.status === title);
+  const tasks = useTaskStore((state) => state.tasks);
+  const searchParams = useSearchParams();
+  const sortMethod = searchParams.get("sortBy") || "default";
+
+  const displayTasks = useMemo(() => {
+    const filtered = tasks.filter((task) => task.status === title);
+    return getSortedTasks(filtered, sortMethod);
+  }, [tasks, title, sortMethod]);
 
   const handleBulkDelete = async () => {
-    const ids = filteredTasks.map((task) => task.id);
-    console.log(ids);
+    const ids = displayTasks.map((task) => task.id);
 
     const res = await bulkDelete(ids);
 
     if (res?.error) {
       toast.error("Operation failed.");
     } else {
-      toast.success("Tasks deleted Successfully!");
+      toast.success("Tasks deleted successfully!");
     }
   };
+
   return (
     <div
       className={cn(
-        "space-y-5 w-full min-w-65 h-fit max-h-136  rounded-lg border border-zinc-200 dark:border-zinc-900/50 p-3 overflow-y-auto",
+        "space-y-5 w-full min-w-65 h-fit max-h-132 rounded-lg border border-zinc-200 dark:border-zinc-900/50 p-3 overflow-y-auto",
         color,
       )}
     >
       {/* Header */}
-      <div className="flex items-center justify-between mb-4 px-1 ">
+      <div className="flex items-center justify-between mb-4 px-1">
         <div className="flex items-center gap-2">
           <h3 className="text-sm font-bold text-zinc-700 dark:text-zinc-300 capitalize">
             {title}
           </h3>
           <span className="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-500 px-1.5 py-0.5 rounded-full font-mono">
-            {filteredTasks.length}
+            {displayTasks.length}
           </span>
         </div>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button
-              variant={"ghost"}
-              size={"icon"}
-              className={`hover:text-destructive/80 transition-colors duration-300 hover:border-destructive/10 border border-zinc-300 dark:border-zinc-700`}
-            >
-              <Trash2 className={`size-4`} />
-            </Button>
-          </AlertDialogTrigger>
-          <ConfirmDialog title={title} onConfirm={handleBulkDelete} />
-        </AlertDialog>
+        {displayTasks.length > 0 && (
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button
+                variant={"ghost"}
+                size={"icon"}
+                className={`hover:text-destructive/80 transition-colors duration-300 hover:border-destructive/10 border border-zinc-300 dark:border-zinc-700`}
+              >
+                <Trash2 className={`size-4`} />
+              </Button>
+            </AlertDialogTrigger>
+            <ConfirmDialog title={title} onConfirm={handleBulkDelete} />
+          </AlertDialog>
+        )}
       </div>
 
       {/* Add Task Button */}
       <Dialog>
         <DialogTrigger asChild>
-          <button className="flex items-center gap-2 cursor-pointer w-full p-2 mb-4 border border-dashed border-zinc-300 dark:border-zinc-800 rounded-md text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-600 hover:bg-zinc-100/50 dark:hover:bg-zinc-900/50 transition-all text-xs font-medium group">
+          <button className="flex items-center gap-2 cursor-pointer w-full p-2 mb-4 border border-dashed border-zinc-300 dark:border-zinc-800 rounded-md text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-600 hover:bg-zinc-100/50 dark:hover:bg-zinc-900/50 transition-all text-xs font-medium group text-left">
             <Plus
               size={14}
               className="group-hover:rotate-90 transition-transform duration-300"
@@ -84,13 +98,12 @@ const KanbanColumn = ({ title, id, color }: Props) => {
           <div
             {...provided.droppableProps}
             ref={provided.innerRef}
-            className={`flex flex-col gap-3 flex-1 h-fit min-h-1 transition-colors duration-300 rounded-md ${
-              snapshot.isDraggingOver
-                ? "bg-zinc-200/30 dark:bg-zinc-900/40"
-                : ""
-            }`}
+            className={cn(
+              "flex flex-col gap-3 flex-1 h-fit min-h-[50px] transition-colors duration-300 rounded-md",
+              snapshot.isDraggingOver && "bg-zinc-200/30 dark:bg-zinc-900/40",
+            )}
           >
-            {filteredTasks.map((task, index) => (
+            {displayTasks.map((task, index) => (
               <TaskCard key={task.id} task={task} index={index} color={color} />
             ))}
             {provided.placeholder}

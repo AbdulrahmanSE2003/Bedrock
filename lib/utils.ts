@@ -6,6 +6,38 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const priorityOrder = { low: 1, medium: 2, high: 3 };
+export const sourceOrder = { bedrock: 1, google: 2, trello: 3 };
+
+export const getSortedTasks = (tasks: Task[], sortMethod: string) => {
+  if (sortMethod === "default") return tasks;
+
+  const sorted = [...tasks];
+
+  switch (sortMethod) {
+    case "priority-asc":
+      return sorted.sort(
+        (a, b) =>
+          priorityOrder[a.priority as keyof typeof priorityOrder] -
+          priorityOrder[b.priority as keyof typeof priorityOrder],
+      );
+
+    case "priority-desc":
+      return sorted.sort(
+        (a, b) =>
+          priorityOrder[b.priority as keyof typeof priorityOrder] -
+          priorityOrder[a.priority as keyof typeof priorityOrder],
+      );
+
+    case "source":
+      return sorted.sort(
+        (a, b) =>
+          sourceOrder[a.priority as keyof typeof sourceOrder] -
+          sourceOrder[b.priority as keyof typeof sourceOrder],
+      );
+  }
+  return sorted;
+};
 const now = new Date();
 
 export const getProgress = (type: "year" | "month" | "week") => {
@@ -55,6 +87,10 @@ export function calculateStreak(logs: { completed_at: string }[]) {
 export function bell() {
   if (typeof window !== "undefined") {
     const notify = new Audio("/sounds/notification.wav");
-    notify.play().catch((e) => console.log("Notify fail (Need user interaction first)", e));
+    notify
+      .play()
+      .catch((e) =>
+        console.log("Notify fail (Need user interaction first)", e),
+      );
   }
 }
