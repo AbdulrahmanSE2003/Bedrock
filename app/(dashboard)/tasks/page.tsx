@@ -10,7 +10,7 @@ const page = async () => {
     <div className="flex flex-col overflow-hidden gap-3">
       <div className="flex justify-between items-center py-2">
         <PageHeading title="Tasks Board" />
-        <div className={`flex gap-2`}>
+        <div className={`flex gap-3`}>
           <SortBy />
           <ViewMode />
         </div>

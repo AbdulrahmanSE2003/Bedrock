@@ -23,7 +23,7 @@ const SortBy = () => {
     router.push(`?${params.toString()}`);
   };
   return (
-    <Select value={sortMethod} onValueChange={handleSort}>
+    <Select onValueChange={handleSort}>
       <SelectTrigger className="min-w-25">
         <SelectValue placeholder="Sort By" />
       </SelectTrigger>
