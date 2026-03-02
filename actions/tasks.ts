@@ -152,3 +152,33 @@ export async function createTask(
     return { error: "failed to create Task." };
   }
 }
+
+export async function changeStatus(
+  id: string,
+  status: "backlog" | "to-do" | "in-progress" | "done" = "done",
+) {
+  try {
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+      return { error: "You must be logged in" };
+    }
+
+    const { error } = await supabaseAdmin
+      .from("tasks")
+      .update({ status: status })
+      .eq("id", id)
+      .select();
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+    revalidatePath("/tasks");
+    return { success: true };
+  } catch (error) {
+    console.error(error);
+    return { error: "failed to create Task." };
+  }
+}

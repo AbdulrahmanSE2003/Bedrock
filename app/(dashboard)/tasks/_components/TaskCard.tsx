@@ -4,17 +4,31 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { cn } from "@/lib/utils";
+import { bell, cn } from "@/lib/utils";
 import { Task } from "@/types/tasks";
 import { Draggable } from "@hello-pangea/dnd";
 import TaskModal from "./TaskModal";
-import { Button } from "@/components/ui/button";
+import { changeStatus } from "@/actions/tasks";
+import { toast } from "sonner";
 
 const TaskCard = ({ task, index }: { task: Task; index: number }) => {
   const priorities = {
     high: "bg-red-500 hover:bg-red-600",
     medium: "bg-amber-500 hover:bg-amber-600",
     low: "bg-emerald-500 hover:bg-emerald-600",
+  };
+
+  const handleCheck = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    const res = await changeStatus(task.id);
+
+    if (res?.error) {
+      toast.error("Operation failed.");
+      console.error(res.error);
+    } else {
+      toast.success("Task checked successfully!");
+      bell();
+    }
   };
 
   return (
@@ -66,7 +80,8 @@ const TaskCard = ({ task, index }: { task: Task; index: number }) => {
                 <div className="relative flex items-center gap-3 overflow-hidden">
                   <div className="flex items-center justify-center shrink-0 transition-all duration-300 opacity-0 -translate-x-6 group-hover:opacity-100 group-hover:translate-x-0">
                     <Checkbox
-                      onClick={(e) => e.stopPropagation()}
+                      disabled={task.status === "done"}
+                      onClick={(e) => handleCheck(e)}
                       defaultChecked={task.status === "done"}
                       className="rounded-[4px] transition-colors duration-300 border-zinc-300 dark:border-zinc-700"
                     />

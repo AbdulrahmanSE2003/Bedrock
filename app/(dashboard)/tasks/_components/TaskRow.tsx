@@ -1,9 +1,11 @@
 import { Checkbox } from "@/components/ui/checkbox";
 
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
+import { bell, cn } from "@/lib/utils";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Task } from "@/types/tasks";
+import { changeStatus } from "@/actions/tasks";
+import { toast } from "sonner";
 
 export const priorityColors = {
   high: "text-red-600 bg-red-50 dark:bg-red-950/30 dark:text-red-400 border-red-200 dark:border-red-900",
@@ -13,13 +15,27 @@ export const priorityColors = {
 };
 
 const TaskRow = ({ task }: { task: Task }) => {
+  const handleCheck = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const res = await changeStatus(task.id);
+
+    if (res?.error) {
+      toast.error("Operation failed.");
+      console.error(res.error);
+    } else {
+      toast.success("Task checked successfully!");
+      bell();
+    }
+  };
   return (
     <TableRow
       key={task.id}
-      className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/40 transition-colors"
+      className="group hover:bg-zinc-50/50 disabled:cursor-not-allowed dark:hover:bg-zinc-900/40 transition-colors"
     >
       <TableCell className="text-center pl-0">
         <Checkbox
+          disabled={task.status === "done"}
+          onClick={(e) => handleCheck(e)}
           defaultChecked={task.status === "done"}
           className="transition-colors duration-300"
         />
