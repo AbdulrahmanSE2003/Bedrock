@@ -60,8 +60,7 @@ const HabitCard = ({ habit }: HabitCardProps) => {
             Habit: <span style={{ color: habit.color }}>{habit.name}</span>
           </h3>
           <p className="text-sm text-gray-400">
-            Streak:
-            {calculateStreak(habit.habit_logs)}
+            Current Streak: {calculateStreak(habit.habit_logs)}
           </p>
         </div>
 

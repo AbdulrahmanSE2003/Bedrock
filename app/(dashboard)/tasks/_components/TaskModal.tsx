@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Select,
   SelectContent,
@@ -19,13 +21,13 @@ import { Button } from "@/components/ui/button";
 import { Trash2, Save, Edit } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
-import { deleteTask, updateTask } from "@/actions/tasks";
+import { createTask, deleteTask, updateTask } from "@/actions/tasks";
 import { bell } from "@/lib/utils";
 
-const TaskModal = ({ task }: { task?: Task }) => {
+const TaskModal = ({ task, col }: { task?: Task; col?: string }) => {
   const [priority, setPriority] = useState(task?.priority || "low");
-  const [status, setStatus] = useState(task?.status || "backlog");
-  const [title, setTitle] = useState(task?.title);
+  const [status, setStatus] = useState(task?.status || col || "backlog");
+  const [title, setTitle] = useState(task?.title || "");
 
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -34,22 +36,34 @@ const TaskModal = ({ task }: { task?: Task }) => {
       toast.warning("Please enter needed fields.");
       return;
     }
-    const id = formData.get("id");
     const newTitle = formData.get("title");
     const newPriority = formData.get("priority");
     const newStatus = formData.get("status");
+    let res;
 
-    const res = await updateTask(id, newTitle, newPriority, newStatus);
-
-    if (res?.success) {
-      toast.success("Task updated successfully!");
-      bell();
+    // Handling creating update if existing task passed to modal
+    if (task) {
+      const id = formData.get("id");
+      res = await updateTask(id, newTitle, newPriority, newStatus);
     } else {
-      toast.error(`Failed to update task.`);
+      res = await createTask(newTitle, newPriority, newStatus);
     }
 
-    if (closeRef.current) {
-      closeRef.current.click();
+    if (res?.success) {
+      closeRef.current?.click();
+
+      setTimeout(() => {
+        toast.success(task ? "Updated successfully!" : "Created successfully!");
+        bell();
+
+        if (!task) {
+          setTitle("");
+          setPriority("low");
+          setStatus(col || "backlog");
+        }
+      }, 200); // 200ms كافية جداً إن المودال يختفي تماماً
+    } else {
+      toast.error(`Operation failed.`);
     }
   };
 
@@ -58,8 +72,11 @@ const TaskModal = ({ task }: { task?: Task }) => {
     const res = await deleteTask(task?.id);
 
     if (res?.success) {
-      toast.success("Task updated successfully!");
-      bell();
+      closeRef.current?.click();
+      setTimeout(() => {
+        toast.success("Task updated successfully!");
+        bell();
+      }, 300);
     } else {
       toast.error(`Failed to update task.`);
     }
@@ -73,7 +90,7 @@ const TaskModal = ({ task }: { task?: Task }) => {
             <div className="p-2 rounded-lg bg-primary/10 text-primary">
               <Edit size={20} />
             </div>
-            Edit Task
+            {task ? "Edit" : "Create"} Task
           </DialogTitle>
         </div>
       </DialogHeader>
@@ -89,9 +106,9 @@ const TaskModal = ({ task }: { task?: Task }) => {
             <Input
               id="title"
               name="title"
-              onChange={(e) => setTitle(e.target.value)}
               value={title}
-              className="h-11 bg-muted/50  border-none shadow-inner"
+              onChange={(e) => setTitle(e.target.value)}
+              className="h-11 bg-muted  border-none shadow-inner"
               placeholder="What needs to be done?"
             />
           </div>
@@ -105,7 +122,7 @@ const TaskModal = ({ task }: { task?: Task }) => {
               <input type="hidden" name="priority" value={priority} />
               <Select value={priority} onValueChange={setPriority}>
                 {" "}
-                <SelectTrigger className="h-11 w-full bg-muted/50 border-none shadow-inner capitalize">
+                <SelectTrigger className="h-11 w-full bg-muted border-none shadow-inner capitalize">
                   <SelectValue placeholder="Select priority" />
                 </SelectTrigger>
                 <SelectContent className={`w-full`}>
@@ -122,7 +139,7 @@ const TaskModal = ({ task }: { task?: Task }) => {
               </Label>
               <input type="hidden" name="status" value={status} />
               <Select value={status} onValueChange={setStatus}>
-                <SelectTrigger className="h-11 w-full bg-muted/50 border-none shadow-inner capitalize text-muted-foreground">
+                <SelectTrigger className="h-11 w-full bg-muted border-none shadow-inner capitalize">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -157,11 +174,10 @@ const TaskModal = ({ task }: { task?: Task }) => {
                 variant={"outline"}
                 className="flex items-center gap-2 px-6"
               >
-                <Save size={16} />
                 Close
               </Button>
             </DialogClose>
-            <Button className="flex items-center gap-2 px-6">
+            <Button disabled={!title} className="flex items-center gap-2 px-6">
               <Save size={16} />
               Save Changes
             </Button>

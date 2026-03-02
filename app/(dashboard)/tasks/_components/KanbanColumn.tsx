@@ -2,6 +2,8 @@ import { Plus } from "lucide-react";
 import TaskCard from "./TaskCard";
 import { Droppable } from "@hello-pangea/dnd";
 import { useTaskStore } from "@/store/useTaskStore";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import TaskModal from "./TaskModal";
 
 interface Props {
   title: string;
@@ -20,20 +22,25 @@ const KanbanColumn = ({ title, id }: Props) => {
             {title}
           </h3>
           <span className="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-500 px-1.5 py-0.5 rounded-full font-mono">
-            {tasks.length}
+            {filteredTasks.length}
           </span>
         </div>
       </div>
 
       {/* TODO: Make Dialog */}
       {/* Add Task Button */}
-      <button className="flex items-center gap-2 cursor-pointer w-full p-2 mb-4 border border-dashed border-zinc-300 dark:border-zinc-800 rounded-md text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-600 hover:bg-zinc-100/50 dark:hover:bg-zinc-900/50 transition-all text-xs font-medium group">
-        <Plus
-          size={14}
-          className="group-hover:rotate-90 transition-transform duration-300"
-        />
-        Add Task
-      </button>
+      <Dialog>
+        <DialogTrigger asChild>
+          <button className="flex items-center gap-2 cursor-pointer w-full p-2 mb-4 border border-dashed border-zinc-300 dark:border-zinc-800 rounded-md text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-600 hover:bg-zinc-100/50 dark:hover:bg-zinc-900/50 transition-all text-xs font-medium group">
+            <Plus
+              size={14}
+              className="group-hover:rotate-90 transition-transform duration-300"
+            />
+            Add Task
+          </button>
+        </DialogTrigger>
+        <TaskModal col={title} />
+      </Dialog>
 
       {/* Droppable Area */}
       <Droppable droppableId={id}>

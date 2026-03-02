@@ -42,7 +42,7 @@ const TaskCard = ({ task, index }: { task: Task; index: number }) => {
                 <div className="w-full flex justify-between items-center mb-2">
                   <Badge
                     className={cn(
-                      "text-[10px] px-2 py-0 h-5 font-bold border-none text-white",
+                      "text-[10px] px-2 py-0 h-5 font-bold border-none capitalize text-background",
                       priorities[task.priority as keyof typeof priorities],
                     )}
                   >
@@ -66,6 +66,7 @@ const TaskCard = ({ task, index }: { task: Task; index: number }) => {
                 <div className="relative flex items-center gap-3 overflow-hidden">
                   <div className="flex items-center justify-center shrink-0 transition-all duration-300 opacity-0 -translate-x-6 group-hover:opacity-100 group-hover:translate-x-0">
                     <Checkbox
+                      onClick={(e) => e.stopPropagation()}
                       defaultChecked={task.status === "done"}
                       className="rounded-[4px] transition-colors duration-300 border-zinc-300 dark:border-zinc-700"
                     />

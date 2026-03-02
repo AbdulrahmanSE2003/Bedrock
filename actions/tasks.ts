@@ -2,7 +2,6 @@
 
 import { auth } from "@/auth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
-import { updatedTask } from "@/types/tasks";
 import { revalidatePath } from "next/cache";
 
 export async function fetchGoogleTasks() {
@@ -118,5 +117,38 @@ export async function deleteTask(id: string) {
     return { success: true };
   } catch {
     return { error: "Failed to delete task." };
+  }
+}
+
+export async function createTask(
+  title: string,
+  priority: "low" | "medium" | "high",
+  status: "backlog" | "to-do" | "in-progress" | "done",
+) {
+  try {
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+      return { error: "You must be logged in" };
+    }
+
+    const { error } = await supabaseAdmin
+      .from("tasks")
+      .insert([
+        { user_id: userId, title: title, priority: priority, status: status },
+      ])
+      .select();
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    revalidatePath("/tasks");
+    return { success: true };
+  } catch (error) {
+    console.error(error);
+    return { error: "failed to create Task." };
   }
 }
