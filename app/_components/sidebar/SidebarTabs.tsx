@@ -10,12 +10,12 @@ import {
 import { cn } from "@/lib/utils";
 
 import {
-  Calendar,
   Github,
   KanbanSquare,
   LayoutDashboard,
   Notebook,
   Settings2Icon,
+  Sparkles,
   Sprout,
   Timer,
 } from "lucide-react";
@@ -32,8 +32,9 @@ const tabs = [
   { name: "Settings", icon: Settings2Icon, url: "/settings" },
 ];
 
-const SidebarTabs = () => {
+const SidebarTabs = ({ showDevTab }: { showDevTab: boolean }) => {
   const pathName = usePathname();
+
   return (
     <SidebarContent>
       <SidebarMenu className={`p-2 space-y-2`}>
@@ -53,6 +54,22 @@ const SidebarTabs = () => {
             </SidebarMenuButton>
           </SidebarMenuItem>
         ))}
+        {showDevTab && (
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              asChild
+              className={cn(
+                `transition-colors duration-500 hover:bg-zinc-200 dark:hover:bg-zinc-800`,
+                pathName === "/features" && "bg-zinc-200 dark:bg-zinc-800",
+              )}
+            >
+              <Link href={"/features"}>
+                <Sparkles />
+                <span className={`font-medium capitalize`}>features</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        )}
       </SidebarMenu>
       <SidebarGroup />
     </SidebarContent>

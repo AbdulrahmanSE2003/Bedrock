@@ -9,8 +9,11 @@ import Link from "next/link";
 import SidebarFooterUser from "@/app/_components/sidebar/SidebarFooterUser";
 import { Logo } from "./ui/Logo";
 import SidebarTabs from "@/app/_components/sidebar/SidebarTabs";
+import { auth } from "@/auth";
 
-export function AppSidebar() {
+export async function AppSidebar() {
+  const session = await auth();
+  const showEmail = session?.user?.email === process.env.DEVELOPER_EMAIL;
   return (
     <Sidebar collapsible="icon" className={``}>
       {/* HEADER */}
@@ -29,7 +32,7 @@ export function AppSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarTabs />
+      <SidebarTabs showDevTab={showEmail} />
       <SidebarFooterUser />
     </Sidebar>
   );
