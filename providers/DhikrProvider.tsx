@@ -11,6 +11,7 @@ export default function DhikrProvider() {
     toast.warning(message, {
       duration: 15000,
       icon: <MoonIcon />,
+      className: "bg-amber-500",
     });
   });
 

@@ -4,12 +4,13 @@ import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import KanbanColumn from "./KanbanColumn";
 import { useEffect, useState } from "react";
 import { useTaskStore } from "@/store/useTaskStore";
+import { changeStatus } from "@/actions/tasks";
 
 const columns = [
-  { title: "backlog", className: "bg-muted-50 dark:bg-zinc-900/50" },
-  { title: "to-do", className: "bg-blue-50/80 dark:bg-blue-800/10" },
+  { title: "backlog", className: "bg-zinc-100 dark:bg-zinc-900/50" },
+  { title: "to-do", className: "bg-blue-100/50 dark:bg-blue-800/10" },
   { title: "in-progress", className: "bg-amber-100/40 dark:bg-amber-400/10" },
-  { title: "done", className: "bg-emerald-50/50 dark:bg-emerald-400/10" },
+  { title: "done", className: "bg-emerald-100/50 dark:bg-emerald-400/10" },
 ];
 
 const KanbanBoard = () => {
@@ -20,7 +21,7 @@ const KanbanBoard = () => {
     setEnabled(true);
   }, []);
 
-  const onDragEnd = (result: DropResult) => {
+  const onDragEnd = async (result: DropResult) => {
     const { destination, source, draggableId } = result;
 
     if (!destination) return;
@@ -32,6 +33,10 @@ const KanbanBoard = () => {
       return;
 
     moveTask(draggableId, destination.droppableId, destination.index);
+
+    if (draggableId || destination.droppableId) {
+      const res = await changeStatus(draggableId, destination.droppableId);
+    }
   };
 
   if (!enabled) return null;
