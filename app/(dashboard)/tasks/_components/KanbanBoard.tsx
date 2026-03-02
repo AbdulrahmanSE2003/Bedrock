@@ -7,10 +7,10 @@ import { useTaskStore } from "@/store/useTaskStore";
 import { changeStatus } from "@/actions/tasks";
 
 const columns = [
-  { title: "backlog", className: "bg-zinc-100 dark:bg-zinc-900/50" },
-  { title: "to-do", className: "bg-blue-100/50 dark:bg-blue-800/10" },
-  { title: "in-progress", className: "bg-amber-100/40 dark:bg-amber-400/10" },
-  { title: "done", className: "bg-emerald-100/50 dark:bg-emerald-400/10" },
+  { title: "backlog", className: "bg-zinc-50 dark:bg-zinc-800/20" },
+  { title: "to-do", className: "bg-blue-50 dark:bg-blue-800/20" },
+  { title: "in-progress", className: "bg-amber-50 dark:bg-amber-400/10" },
+  { title: "done", className: "bg-emerald-50 dark:bg-emerald-800/20" },
 ];
 
 const KanbanBoard = () => {

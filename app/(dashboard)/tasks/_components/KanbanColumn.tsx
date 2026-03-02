@@ -61,7 +61,7 @@ const KanbanColumn = ({ title, id, color }: Props) => {
             }`}
           >
             {filteredTasks.map((task, index) => (
-              <TaskCard key={task.id} task={task} index={index} />
+              <TaskCard key={task.id} task={task} index={index} color={color} />
             ))}
             {provided.placeholder}
           </div>
