@@ -4,7 +4,6 @@ import Navbar from "../_components/Navbar";
 import { SonnerToaster } from "../_components/SonnerToaster";
 import FloatingTimer from "./pomodoro/_components/FloatingTimer";
 import TimerController from "./pomodoro/_components/TimerController";
-import Azkar from "./_components/Azkar";
 import DhikrProvider from "@/providers/DhikrProvider";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
