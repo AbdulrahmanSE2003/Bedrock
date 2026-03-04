@@ -16,8 +16,8 @@ export function Footer() {
             </h2>
           </a>
           <p className="text-sm text-zinc-500 leading-relaxed">
-            The minimalist workspace for developers on Zorin OS. Built for
-            speed, privacy, and focus.
+            The minimalist workspace for developers.
+            <br /> Built for speed, privacy, and focus.
           </p>
         </div>
 
@@ -28,12 +28,18 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 text-sm font-medium">
               <li>
-                <a href="#" className="hover:text-primary transition-colors">
+                <a
+                  href="#"
+                  className="hover:text-primary/75 transition-colors duration-200"
+                >
                   Changelog
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-primary transition-colors">
+                <a
+                  href="#"
+                  className="hover:text-primary/75 transition-colors duration-200"
+                >
                   Documentation
                 </a>
               </li>

@@ -21,11 +21,15 @@ export async function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              className={`py-3.5 transition-colors duration-500 hover:bg-zinc-200 dark:hover:bg-zinc-800 data-closed`}
+              className={`
+    py-3.5 transition-all duration-500 
+    hover:bg-zinc-200 dark:hover:bg-zinc-800
+    group-data-[collapsible=icon]:p-0!
+  `}
               asChild
             >
               <Link href={"/dashboard "}>
-                <Logo />
+                <Logo inSidebar={true} />
                 <span className={`font-medium`}>My Bedrock</span>
               </Link>
             </SidebarMenuButton>

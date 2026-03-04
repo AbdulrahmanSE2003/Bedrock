@@ -16,7 +16,7 @@ const visionPoints = [
 
 export const Vision = () => {
   return (
-    <section className="py-24 bg-background px-6">
+    <section id="vision" className="py-24 bg-background px-6">
       <div className=" mx-auto space-y-10">
         {/* Main Headline */}
         <motion.h2

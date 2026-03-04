@@ -27,7 +27,10 @@ const integrations = [
 
 export function IntegrationSection() {
   return (
-    <section className="py-20 bg-background px-6 overflow-hidden border-t border-zinc-100 dark:border-zinc-900">
+    <section
+      id="integrations"
+      className="py-20 bg-background px-6 overflow-hidden border-t border-zinc-100 dark:border-zinc-900"
+    >
       <div className="w-full grid grid-cols-1 lg:grid-cols-2 items-center gap-24">
         {/* Left Side: Big Typography */}
         <div className="space-y-12">

@@ -44,7 +44,7 @@ export const LandingNav = () => {
         </Link>
 
         <div className="hidden md:flex items-center gap-10">
-          {["Vision", "Features"].map((item) => (
+          {["Vision", "Features", "Integrations"].map((item) => (
             <Link
               key={item}
               href={`#${item.toLowerCase()}`}
@@ -56,7 +56,7 @@ export const LandingNav = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <Link href="/login">
+          <Link href="/dashboard">
             <Button
               size="sm"
               className="rounded-lg px-5 h-9 font-semibold text-sm uppercase tracking-wider"
