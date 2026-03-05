@@ -1,6 +1,7 @@
 import { bell } from "@/lib/utils";
 import { toast } from "sonner";
 import { create } from "zustand";
+import { usePreferences } from "./usePreferences"; // استيراد المخزن الثاني
 
 let ambientAudio: HTMLAudioElement | null = null;
 
@@ -8,23 +9,18 @@ interface PomodoroState {
   minutes: number;
   seconds: number;
   isActive: boolean;
-  background: string;
-  sound: string;
 
   tick: () => void;
   toggleActive: () => void;
   resetTimer: (mins?: number) => void;
-  setBackground: (bg: string) => void;
-  setSound: (sd: string) => void;
   stopAmbient: () => void;
+  playAmbient: (soundName: string) => void;
 }
 
 export const usePomodoroStore = create<PomodoroState>((set, get) => ({
   minutes: 25,
   seconds: 0,
   isActive: false,
-  background: "bg-background",
-  sound: "silence",
 
   stopAmbient: () => {
     if (ambientAudio) {
@@ -34,9 +30,20 @@ export const usePomodoroStore = create<PomodoroState>((set, get) => ({
     }
   },
 
+  playAmbient: (soundName: string) => {
+    get().stopAmbient(); // تنظيف أي صوت شغال
+    if (soundName !== "default" && soundName !== "white") {
+      // عدل حسب مسمياتك
+      ambientAudio = new Audio(`/sounds/${soundName}.wav`);
+      ambientAudio.loop = true;
+      ambientAudio
+        .play()
+        .catch((err) => console.log("Audio play blocked", err));
+    }
+  },
+
   tick: () => {
     const { minutes, seconds, stopAmbient } = get();
-
     if (seconds > 0) {
       set({ seconds: seconds - 1 });
     } else if (minutes > 0) {
@@ -44,22 +51,20 @@ export const usePomodoroStore = create<PomodoroState>((set, get) => ({
     } else {
       stopAmbient();
       set({ isActive: false });
-
       toast.success("Session Finished! Time for a break. ☕");
       bell();
     }
   },
 
   toggleActive: () => {
-    const { isActive, sound, stopAmbient } = get();
+    const { isActive, stopAmbient, playAmbient } = get();
     const nextActiveState = !isActive;
 
+    // سحب الصوت المختار حالياً من الـ Preferences
+    const currentSound = usePreferences.getState().timerSound;
+
     if (nextActiveState) {
-      if (sound !== "silence") {
-        ambientAudio = new Audio(`/sounds/${sound}.wav`);
-        ambientAudio.loop = true;
-        ambientAudio.play().catch((err) => console.log("Play blocked", err));
-      }
+      playAmbient(currentSound);
     } else {
       stopAmbient();
     }
@@ -69,26 +74,6 @@ export const usePomodoroStore = create<PomodoroState>((set, get) => ({
 
   resetTimer: (mins = 25) => {
     get().stopAmbient();
-    set({
-      minutes: mins,
-      seconds: 0,
-      isActive: false,
-    });
-  },
-
-  setBackground: (bg) => set({ background: bg }),
-
-  setSound: (newSound) => {
-    const { isActive, stopAmbient } = get();
-    set({ sound: newSound });
-
-    if (isActive) {
-      stopAmbient();
-      if (newSound !== "silence") {
-        ambientAudio = new Audio(`/sounds/${newSound}.wav`);
-        ambientAudio.loop = true;
-        ambientAudio.play();
-      }
-    }
+    set({ minutes: mins, seconds: 0, isActive: false });
   },
 }));

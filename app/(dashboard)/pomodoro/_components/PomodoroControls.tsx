@@ -10,79 +10,71 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Image as ImageIcon, Volume2 } from "lucide-react";
+import { usePreferences } from "@/store/usePreferences";
 import { usePomodoroStore } from "@/store/usePomodoroStore";
+import { BACKGROUND_MAP, SOUNDS } from "@/lib/utils";
 
 const PomodoroControls = () => {
-  const { background, setBackground, sound, setSound } = usePomodoroStore();
+  const { timerBg, timerSound, setTimerBg, setTimerSound } = usePreferences();
+  const { isActive } = usePomodoroStore();
+
+  console.log(timerSound);
+
+  const backgroundKeys = Object.keys(BACKGROUND_MAP);
+
   return (
-    <div
-      className={`flex items-center justify-between max-md:flex-col max-md:gap-4`}
-    >
-      {/* Settings Controls */}
-      <div className=" flex gap-4 w-fit bg-background backdrop-blur-md p-2 rounded-2xl border border-zinc-300 dark:border-zinc-800">
-        <Select onValueChange={setBackground} defaultValue={background}>
-          <SelectTrigger className="w-44 bg-zinc-200/50 dark:bg-zinc-900 border-none text-foreground focus:ring-0">
-            <ImageIcon className="w-4 h-4 mr-2" />
-            <SelectValue placeholder="Background" />
+    <div className="flex items-center justify-between max-md:flex-col max-md:gap-6 w-full">
+      {/* Settings Group */}
+      <div className="flex gap-3 p-1.5 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-xl rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+        {/* Background Selector */}
+        <Select disabled={isActive} value={timerBg} onValueChange={setTimerBg}>
+          <SelectTrigger className="w-40 h-10 bg-transparent border-none focus:ring-0 hover:bg-zinc-200/50 dark:hover:bg-zinc-800/50 transition-colors capitalize">
+            <div className="flex items-center gap-2 font-medium text-xs">
+              <ImageIcon className="w-3.5 h-3.5 opacity-60" />
+              <SelectValue placeholder="Theme" />
+            </div>
           </SelectTrigger>
-          <SelectContent className="max-h-[300px]">
-            {" "}
-            {/* أضفنا max-h عشان الدروب داون متطولش أوي */}
-            <SelectGroup>
-              <SelectLabel className="text-[10px] uppercase tracking-widest opacity-50">
-                Standard
-              </SelectLabel>
-              <SelectItem value="bg-background">Default System</SelectItem>
-              <SelectItem value="bg-slate-950">Midnight Slate</SelectItem>
-              <SelectItem value="bg-zinc-900">Zinc Charcoal</SelectItem>
-            </SelectGroup>
-            <SelectGroup>
-              <SelectLabel className="text-[10px] uppercase tracking-widest opacity-50">
-                Deep Nature
-              </SelectLabel>
-              <SelectItem value="bg-[#052e16]">Midnight Forest</SelectItem>
-              <SelectItem value="bg-[#082f49]">Ocean Abyss</SelectItem>
-              <SelectItem value="bg-[#2e1065]">Royal Plum</SelectItem>
-            </SelectGroup>
-            <SelectGroup>
-              <SelectLabel className="text-[10px] uppercase tracking-widest opacity-50">
-                Warm Focus
-              </SelectLabel>
-              <SelectItem value="bg-[#1c1917]">Warm Espresso</SelectItem>
-              <SelectItem value="bg-[#450a0a]">Wine Cellar</SelectItem>
-              <SelectItem value="bg-[#422006]">Desert Dusk</SelectItem>
-            </SelectGroup>
-            <SelectGroup>
-              <SelectLabel className="text-[10px] uppercase tracking-widest opacity-50">
-                Vibrant
-              </SelectLabel>
-              <SelectItem value="bg-indigo-950">Electric Indigo</SelectItem>
-              <SelectItem value="bg-rose-950">Rosewood</SelectItem>
-              <SelectItem value="bg-teal-950">Deep Teal</SelectItem>
-            </SelectGroup>
+          <SelectContent>
+            {backgroundKeys.map((key) => (
+              <SelectItem className="capitalize" key={key} value={key}>
+                {key}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
 
-        <Select onValueChange={setSound} defaultValue={sound}>
-          <SelectTrigger className="w-44 bg-zinc-200/50 dark:bg-zinc-900 border-none text-foreground focus:ring-0">
-            <Volume2 className="w-4 h-4 mr-2" />
-            <SelectValue placeholder="Ambient Sound" />
+        <div className="w-[1px] h-6 bg-zinc-300 dark:bg-zinc-700 self-center" />
+
+        {/* Ambient Sound Selector */}
+        <Select
+          disabled={isActive}
+          value={timerSound}
+          onValueChange={setTimerSound}
+        >
+          <SelectTrigger className="w-40 h-10 bg-transparent border-none focus:ring-0 hover:bg-zinc-200/50 dark:hover:bg-zinc-800/50 transition-colors capitalize">
+            <div className="flex items-center gap-2 font-medium text-xs">
+              <Volume2 className="w-3.5 h-3.5 opacity-60" />
+              <SelectValue placeholder="Ambient" />
+            </div>
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="silence">Zen Mode</SelectItem>
-            <SelectItem value="rain">Heavy Rain</SelectItem>
-            <SelectItem value="ocean">Ocean Waves</SelectItem>
-            <SelectItem value="night">Late Night</SelectItem>
-            <SelectItem value="forest">Dark Forest</SelectItem>
-            <SelectItem value="cafe">Cozy Cafe</SelectItem>
-            <SelectItem value="white">White Noise</SelectItem>
+            {SOUNDS.map((sound) => (
+              <SelectItem className="capitalize" key={sound} value={sound}>
+                {sound}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
 
-      {/* Motivation */}
-      <div className=" text-zinc-500 text-sm">
-        Stay focused, Abdulrahman. You&apos;re doing great.
+      {/* Motivational Quote */}
+      <div className="flex flex-col items-end max-md:items-center gap-1">
+        <p className="text-sm font-medium tracking-tight">
+          {isActive ? "Deep work in progress..." : "Ready to focus?"}
+        </p>
+        <span className="text-[11px] text-zinc-400 font-mono uppercase tracking-widest">
+          Stay sharp, Abdulrahman
+        </span>
       </div>
     </div>
   );

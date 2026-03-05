@@ -1,16 +1,16 @@
 "use client";
 
-import { usePomodoroStore } from "@/store/usePomodoroStore";
 import Timer from "./_components/Timer";
 import PomodoroControls from "./_components/PomodoroControls";
+import { usePreferences } from "@/store/usePreferences";
+import { BACKGROUND_MAP } from "@/lib/utils";
 
 const PomodoroPage = () => {
-  const { background } = usePomodoroStore();
-  console.log(background);
+  const { timerBg } = usePreferences();
 
   return (
     <div
-      className={`h-full transition-all duration-700 space-y-14 items-center justify-center p-2 ${background} rounded-xl`}
+      className={`h-full transition-all duration-700 space-y-14 items-center justify-center p-2 ${BACKGROUND_MAP[timerBg]} rounded-xl`}
     >
       {/* Pomodoro Header */}
       <PomodoroControls />

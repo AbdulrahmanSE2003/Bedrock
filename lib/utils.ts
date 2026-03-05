@@ -96,8 +96,22 @@ export function bell() {
 }
 
 // Defaults
+export const BACKGROUND_MAP = {
+  default: "bg-background",
+  midnight: "bg-slate-950",
+  zinc: "bg-zinc-900",
+  forest: "bg-[#052e16]",
+  ocean: "bg-[#082f49]",
+  plum: "bg-[#2e1065]",
+  espresso: "bg-[#1c1917]",
+  wine: "bg-[#450a0a]",
+  desert: "bg-[#422006]",
+  indigo: "bg-indigo-950",
+  rose: "bg-rose-950",
+  teal: "bg-teal-950",
+} as const;
 
-export const sounds = [
+export const SOUNDS = [
   "default",
   "rain",
   "ocean",
@@ -105,20 +119,4 @@ export const sounds = [
   "forest",
   "cafe",
   "white",
-];
-
-export const backgrounds = [
-  "default",
-  "midnight",
-  "zinc",
-  "forest",
-  "ocean",
-  "default",
-  "plum",
-  "espresso",
-  "wine",
-  "desert",
-  "indigo",
-  "rose",
-  "teal",
-];
+] as const;
