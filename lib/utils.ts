@@ -94,3 +94,31 @@ export function bell() {
       );
   }
 }
+
+// Defaults
+
+export const sounds = [
+  "default",
+  "rain",
+  "ocean",
+  "night",
+  "forest",
+  "cafe",
+  "white",
+];
+
+export const backgrounds = [
+  "default",
+  "midnight",
+  "zinc",
+  "forest",
+  "ocean",
+  "default",
+  "plum",
+  "espresso",
+  "wine",
+  "desert",
+  "indigo",
+  "rose",
+  "teal",
+];
