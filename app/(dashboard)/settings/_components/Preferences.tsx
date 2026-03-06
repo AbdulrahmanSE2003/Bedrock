@@ -5,7 +5,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -19,19 +18,30 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Plus, Save } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { BACKGROUND_MAP, SOUNDS } from "@/lib/utils";
+import { BACKGROUND_MAP, bell, SOUNDS } from "@/lib/utils";
 import { usePreferences } from "@/store/usePreferences";
-import { toast } from "sonner";
 import { usePomodoroStore } from "@/store/usePomodoroStore";
+import { useDhikrStore } from "@/store/useDhikrStore";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const Preferences = () => {
+  const [dhikr, setDhikr] = useState("");
   const { tasksView, timerSound, timerBg, setView, setTimerBg, setTimerSound } =
     usePreferences();
   const { isActive } = usePomodoroStore();
+  const { addDhikr } = useDhikrStore();
 
   const backgroundKeys = Object.keys(BACKGROUND_MAP);
+
+  const handleAddDhikr = () => {
+    addDhikr(dhikr);
+    setDhikr("");
+    toast.success("Dhikr added successfully.");
+    bell();
+  };
 
   return (
     <TabsContent value="preferences" className="outline-none">
@@ -128,11 +138,13 @@ const Preferences = () => {
               </Label>
               <div className="flex justify-between gap-2 w-full">
                 <Input
+                  value={dhikr}
+                  onChange={(e) => setDhikr(e.target.value)}
                   id="dhikr"
                   placeholder="اللهم صلى وسلم وبارك على نبينا محمد"
-                  className="h-10 bg-muted/50 max-w-2xl border-none shadow-inner focus-visible:ring-1"
+                  className="h-10 bg-muted max-w-2xl border-none shadow-inner focus-visible:ring-1"
                 />
-                <Button className="shrink-0">
+                <Button className="shrink-0" onClick={handleAddDhikr}>
                   <Plus size={18} />
                   Add Dhikr
                 </Button>
