@@ -10,6 +10,7 @@ import { auth } from "@/auth";
 import { ChartBarIcon, Command } from "lucide-react";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
+import { TaskRadialChart } from "../_components/TaskRadialChart";
 
 const page = async () => {
   const session = await auth();
@@ -41,11 +42,15 @@ const page = async () => {
         {/* Pomodoro Widget  */}
         <PomodoroWidget />
 
-        <div
-          className={`max-md:min-h-100 bg-primary-foreground dark:bg-sidebar-border dark:-sidebar-border dark:shadow-zinc-800/25  shadow-zinc-300/50 shadow-lg border border-zinc-400/40 dark:border-zinc-600/50 rounded-xl p-6 h-64`}
+        <Suspense
+          fallback={
+            <div
+              className={`max-md:min-h-100 bg-primary-foreground dark:bg-sidebar-border dark:-sidebar-border  dark:shadow-zinc-800/25  shadow-zinc-300/50 shadow-lg border border-zinc-400/40 dark:border-zinc-600/50 rounded-xl p-6 h-72 flex flex-col gap-3 animate-pulse`}
+            ></div>
+          }
         >
-          <CardHeading Icon={ChartBarIcon}>Radar Chart</CardHeading>
-        </div>
+          <TaskRadialChart />
+        </Suspense>
 
         {/* Habits Stats */}
 
