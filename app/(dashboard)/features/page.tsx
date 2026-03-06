@@ -1,6 +1,7 @@
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
-import PageHeading from "@/app/_components/PageHeading";
+"use client";
+
+import { useState } from "react";
+import { useIdeasStore } from "@/store/useIdeasStore";
 import {
   Table,
   TableBody,
@@ -9,87 +10,100 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Trash2, Plus } from "lucide-react";
 
-const myIdeas = [
-  {
-    id: 1,
-    title: "Control tasks from table view",
-    desc: "إدارة المهام وتعديل حالتها مباشرة من جدول بيانات مرن وسريع بدل الكانبان.",
-  },
-  {
-    id: 2,
-    title: "Salah and adhkar reminder",
-    desc: "نظام تنبيهات ذكي للصلاة والأذكار مدمج داخل بيئة العمل لضمان البركة في الوقت.",
-  },
-  {
-    id: 3,
-    title: "Trello integration",
-    desc: "إمكانية استيراد المهام والمشاريع من Trello بضغطة زر واحدة لتسهيل الانتقال لمنصتنا.",
-  },
-  {
-    id: 4,
-    title: "Desktop App",
-    desc: "تحويل المنصة لتطبيق سطح مكتب باستخدام Electron لتجربة أسرع وأداء أفضل على Zorin OS.",
-  },
-  {
-    id: 5,
-    title: "Content creation with AI",
-    desc: "مساعد ذكي يولد أفكاراً للمحتوى ويجهز مسودات المنشورات بناءً على أهدافك.",
-  },
-  {
-    id: 6,
-    title: "Task Prioritization AI", // عدلت العنوان عشان ميتكررش
-    desc: "استخدام Gemini لتحليل أهمية المهام وترتيبها تلقائياً بناءً على المواعيد النهائية.",
-  },
-  {
-    id: 7,
-    title: "Offline working",
-    desc: "دعم وضع الأوفلاين (PWA) بحيث تقدر تشتغل وتضيف مهام حتى لو النت فصل في أي وقت.",
-  },
-  {
-    id: 8,
-    title: "Counting work timer",
-    desc: "عداد زمني (Pomodoro) لحساب الوقت الفعلي المستهلك في كل مهمة بدقة.",
-  },
-  {
-    id: 9,
-    title: "Dynamic background for timer",
-    desc: "خلفيات حية ومريحة للعين (Lo-fi vibes) تتغير حسب حالة التايمر ونوع المهمة.",
-  },
-];
-const IdeasPage = async () => {
+const Page = () => {
+  const { ideas, addIdea, toggleIdea, deleteIdea } = useIdeasStore();
+  const [newTitle, setNewTitle] = useState("");
+  const [newDesc, setNewDesc] = useState("");
+
+  const handleAdd = () => {
+    if (!newTitle) return;
+    addIdea(newTitle, newDesc);
+    setNewTitle("");
+    setNewDesc("");
+  };
+
   return (
-    <div className="max-w-4xl mx-auto py-10 px-4">
-      <PageHeading title="Next Features" />
+    <div className="max-w-4xl mx-auto py-10 px-4 space-y-6">
+      <div className="flex justify-between items-end">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">Roadmap</h1>
+          <p className="text-xs text-muted-foreground">
+            Internal feature tracking for Bedrock.
+          </p>
+        </div>
+      </div>
 
-      <div className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-card mt-5">
+      {/* Quick Add Form */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 bg-muted/30 p-4 rounded-xl border border-dashed border-zinc-300 dark:border-zinc-800">
+        <Input
+          placeholder="Feature title..."
+          value={newTitle}
+          onChange={(e) => setNewTitle(e.target.value)}
+          className="h-9"
+        />
+        <Input
+          placeholder="Brief description..."
+          value={newDesc}
+          onChange={(e) => setNewDesc(e.target.value)}
+          className="h-9"
+        />
+        <Button onClick={handleAdd} size="sm" className="gap-2">
+          <Plus size={14} /> Add Feature
+        </Button>
+      </div>
+
+      <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-card overflow-hidden shadow-sm">
         <Table>
-          <TableHeader>
-            <TableRow className="hover:bg-transparent">
-              <TableHead className="w-50">Feature</TableHead>
+          <TableHeader className="bg-muted/50">
+            <TableRow>
+              <TableHead className="w-12 text-center">Done</TableHead>
+              <TableHead className="w-48">Feature</TableHead>
               <TableHead>Description</TableHead>
+              <TableHead className="w-12"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {myIdeas.map((idea) => (
-              <TableRow key={idea.id} className="group transition-colors">
-                <TableCell className="font-bold text-sm">
+            {ideas.map((idea) => (
+              <TableRow
+                key={idea.id}
+                className={`${idea.completed ? "opacity-50" : ""} transition-opacity group`}
+              >
+                <TableCell className="text-center">
+                  <Checkbox
+                    checked={idea.completed}
+                    onCheckedChange={() => toggleIdea(idea.id)}
+                  />
+                </TableCell>
+                <TableCell
+                  className={`font-bold text-sm ${idea.completed ? "line-through" : ""}`}
+                >
                   {idea.title}
                 </TableCell>
-                <TableCell className="text-xs text-muted-foreground">
+                <TableCell className="text-xs text-muted-foreground leading-relaxed">
                   {idea.desc}
+                </TableCell>
+                <TableCell>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => deleteIdea(idea.id)}
+                    className="opacity-0 group-hover:opacity-100 text-destructive hover:bg-destructive/10"
+                  >
+                    <Trash2 size={14} />
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
-
-      <p className="text-[10px] text-center text-muted-foreground italic mt-3">
-        Keep building! 🚀
-      </p>
     </div>
   );
 };
 
-export default IdeasPage;
+export default Page;
