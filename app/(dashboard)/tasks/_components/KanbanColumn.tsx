@@ -60,7 +60,7 @@ const KanbanColumn = ({ title, id, color }: Props) => {
       )}
     >
       {/* Header */}
-      <div className="flex items-center justify-between mb-4 px-1">
+      <div className="flex items-center justify-between mb-4 px-1 min-h-9">
         <div className="flex items-center gap-2">
           <h3 className="text-sm font-bold text-zinc-700 dark:text-zinc-300 capitalize">
             {title}

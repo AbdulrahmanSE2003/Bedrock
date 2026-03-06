@@ -5,4 +5,5 @@ export type Task = {
   source: "local" | "google" | "trello";
   status: "backlog" | "to-do" | "in-progress" | "done";
   external_id?: string;
+  due_date?: string;
 };

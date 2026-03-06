@@ -29,6 +29,8 @@ const TaskModal = ({ task, col }: { task?: Task; col?: string }) => {
   const [status, setStatus] = useState(task?.status || col || "backlog");
   const [title, setTitle] = useState(task?.title || "");
 
+  console.log(task);
+
   const closeRef = useRef<HTMLButtonElement>(null);
 
   const handleSave = async (formData: FormData) => {
@@ -146,7 +148,6 @@ const TaskModal = ({ task, col }: { task?: Task; col?: string }) => {
                   <SelectItem value="backlog">Backlog</SelectItem>
                   <SelectItem value="to-do">To Do</SelectItem>
                   <SelectItem value="in-progress">In Progress</SelectItem>
-                  <SelectItem value="done">Done</SelectItem>
                 </SelectContent>
               </Select>
             </div>

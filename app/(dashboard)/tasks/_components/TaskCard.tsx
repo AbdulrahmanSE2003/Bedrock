@@ -10,6 +10,14 @@ import { Draggable } from "@hello-pangea/dnd";
 import TaskModal from "./TaskModal";
 import { changeStatus } from "@/actions/tasks";
 import { toast } from "sonner";
+import { CalendarDays } from "lucide-react";
+
+const priorities = {
+  high: "bg-red-500 hover:bg-red-600 dark:bg-red-500/80 dark:hover:bg-red-500",
+  medium:
+    "bg-amber-500 hover:bg-amber-600 dark:bg-amber-500/80 dark:hover:bg-amber-500",
+  low: "bg-emerald-500 hover:bg-emerald-600 dark:bg-emerald-500/80 dark:hover:bg-emerald-500",
+};
 
 const TaskCard = ({
   task,
@@ -20,12 +28,7 @@ const TaskCard = ({
   index: number;
   color: string;
 }) => {
-  const priorities = {
-    high: "bg-red-500 hover:bg-red-600 dark:bg-red-500/80 dark:hover:bg-red-500",
-    medium:
-      "bg-amber-500 hover:bg-amber-600 dark:bg-amber-500/80 dark:hover:bg-amber-500",
-    low: "bg-emerald-500 hover:bg-emerald-600 dark:bg-emerald-500/80 dark:hover:bg-emerald-500",
-  };
+  const isOverdue = new Date(task.due_date) < new Date();
 
   const handleCheck = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -57,7 +60,7 @@ const TaskCard = ({
             <DialogTrigger asChild>
               <Card
                 className={cn(
-                  "bg-white dark:bg-zinc-950 p-4 min-h-20 rounded-md flex flex-col justify-center border-zinc-200 dark:border-zinc-900 hover:border-zinc-400/60 dark:hover:border-zinc-700 hover:bg-zinc-50/40 dark:hover:bg-zinc-900/10 transition-all duration-300 cursor-grab group overflow-hidden",
+                  "bg-white dark:bg-zinc-950 p-4 min-h-20 rounded-md flex flex-col justify-center border-zinc-200 dark:border-zinc-900 hover:border-zinc-400/60 dark:hover:border-zinc-700 hover:bg-zinc-50/40 dark:hover:bg-zinc-900/10 transition-all duration-300 cursor-grab group overflow-hidden gap-1",
                   task.status === "done" ? "opacity-50 cursor-default" : "",
                   color,
                 )}
@@ -87,7 +90,7 @@ const TaskCard = ({
                 </div>
 
                 {/* Body: Checkbox & Title */}
-                <div className="relative flex items-center gap-3 overflow-hidden">
+                <div className="relative flex items-center gap-3 overflow-hidden mt-2">
                   <div className="flex items-center justify-center shrink-0 transition-all duration-300 opacity-0 -translate-x-6 group-hover:opacity-100 group-hover:translate-x-0">
                     <Checkbox
                       disabled={task.status === "done"}
@@ -105,6 +108,24 @@ const TaskCard = ({
                     {task.title}
                   </p>
                 </div>
+                {task.due_date && (
+                  <div
+                    className={`flex items-center gap-1 mt-2 text-[10px] font-bold uppercase tracking-wider text-foreground/85 `}
+                  >
+                    <CalendarDays size={12} className={``} />
+                    <span
+                      className={cn(
+                        "flex items-center mt-0.5",
+                        isOverdue
+                          ? "text-red-500"
+                          : "text-emerald-600 opacity-80",
+                      )}
+                    >
+                      {isOverdue ? "Overdue" : "Due"}:{" "}
+                      {new Date(task.due_date).toLocaleDateString()}
+                    </span>
+                  </div>
+                )}
               </Card>
             </DialogTrigger>
 
