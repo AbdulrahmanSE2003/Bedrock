@@ -6,7 +6,7 @@ import RadialChart from "./RadialChart";
 export async function TaskRadialChart() {
   const tasks = await fetchAllTasks();
 
-  if (!tasks) {
+  if (!tasks || "error" in tasks || !Array.isArray(tasks)) {
     return (
       <div className="max-md:min-h-100 bg-primary-foreground dark:bg-sidebar-border shadow-zinc-300/50 dark:shadow-zinc-800/25 shadow-lg border border-zinc-400/40 dark:border-zinc-600/50 rounded-xl p-6 h-72 flex flex-col justify-between overflow-hidden">
         <p className="text-xs text-muted-foreground">
