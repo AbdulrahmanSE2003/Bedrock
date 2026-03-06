@@ -1,7 +1,5 @@
 import { auth } from "@/auth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
-import { updatedTask } from "@/types/tasks";
-import { Session } from "inspector/promises";
 
 import { unstable_cache } from "next/cache";
 
