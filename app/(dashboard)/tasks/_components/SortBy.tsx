@@ -32,7 +32,6 @@ const SortBy = () => {
           <SelectItem value="default">Default</SelectItem>
           <SelectItem value="priority-asc">Priority Low : High</SelectItem>
           <SelectItem value="priority-desc">Priority High : Low</SelectItem>
-          <SelectItem value="source">Source</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>

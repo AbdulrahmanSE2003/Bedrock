@@ -8,7 +8,13 @@ import { toast } from "sonner";
 
 import { useTaskStore } from "@/store/useTaskStore";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { cn, getSortedTasks, priorityOrder, sourceOrder } from "@/lib/utils";
+import {
+  bell,
+  cn,
+  getSortedTasks,
+  priorityOrder,
+  sourceOrder,
+} from "@/lib/utils";
 import { bulkDelete } from "@/actions/tasks";
 
 import TaskCard from "./TaskCard";
@@ -42,6 +48,7 @@ const KanbanColumn = ({ title, id, color }: Props) => {
       toast.error("Operation failed.");
     } else {
       toast.success("Tasks deleted successfully!");
+      bell();
     }
   };
 

@@ -10,7 +10,7 @@ import {
 import { useTaskStore } from "@/store/useTaskStore";
 import TaskRow from "./TaskRow";
 import { useSearchParams } from "next/navigation";
-import { priorityOrder, sourceOrder } from "@/lib/utils";
+import { priorityOrder } from "@/lib/utils";
 
 const TableView = () => {
   const { tasks } = useTaskStore();
@@ -30,12 +30,6 @@ const TableView = () => {
       (a, b) =>
         priorityOrder[b.priority as keyof typeof priorityOrder] -
         priorityOrder[a.priority as keyof typeof priorityOrder],
-    );
-  } else if (sortMethod === "source") {
-    sortedTasks = [...tasks].sort(
-      (a, b) =>
-        sourceOrder[a.priority as keyof typeof sourceOrder] -
-        sourceOrder[b.priority as keyof typeof sourceOrder],
     );
   }
   return (

@@ -192,7 +192,7 @@ export async function bulkDelete(taskIds: string[]) {
     if (!userId) {
       return { error: "You must be logged in" };
     }
-    if (taskIds.length === 0) return { success: true };
+    if (taskIds.length === 0) return { error: true };
 
     const { error } = await supabaseAdmin
       .from("tasks")
@@ -205,6 +205,40 @@ export async function bulkDelete(taskIds: string[]) {
       return;
     }
     revalidatePath("/tasks");
+    return { success: true };
+  } catch (error) {
+    console.error(error);
+    return { error: true };
+  }
+}
+
+export async function bulkInsert(tasks: Task[]) {
+  try {
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+      return { error: "You must be logged in" };
+    }
+
+    if (!tasks.length) return { error: "Invalid tasks passed." };
+
+    const tasksWithUserId = tasks.map((task) => ({
+      ...task,
+      user_id: userId,
+    }));
+
+    const { error } = await supabaseAdmin
+      .from("tasks")
+      .upsert(tasksWithUserId, { onConflict: "external_id" })
+      .select();
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    revalidatePath("tasks");
     return { success: true };
   } catch (error) {
     console.error(error);

@@ -4,4 +4,5 @@ export type Task = {
   priority: "high" | "medium" | "low";
   source: "local" | "google" | "trello";
   status: "backlog" | "to-do" | "in-progress" | "done";
+  external_id?: string;
 };
