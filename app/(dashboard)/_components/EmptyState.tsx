@@ -6,7 +6,7 @@ import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 interface EmptyStateProps {
-  icon: LucideIcon;
+  icon?: LucideIcon;
   title: string;
   description: string;
   actionLabel?: string;
@@ -32,12 +32,14 @@ export const EmptyState = ({
       )}
     >
       {/* Icon Wrapper */}
-      <div className="relative mb-6 group">
-        <div className="absolute inset-0 bg-primary/10 blur-3xl rounded-full group-hover:bg-primary/20 transition-colors" />
-        <div className="relative p-5 rounded-2xl bg-background border border-muted shadow-sm text-muted-foreground group-hover:text-primary transition-colors duration-200">
-          <Icon size={32} strokeWidth={1.5} />
+      {Icon && (
+        <div className="relative mb-6 group">
+          <div className="absolute inset-0 bg-primary/10 blur-3xl rounded-full group-hover:bg-primary/20 transition-colors" />
+          <div className="relative p-5 rounded-2xl bg-background border border-muted shadow-sm text-muted-foreground group-hover:text-primary transition-colors duration-200">
+            <Icon size={32} strokeWidth={1.5} />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Typography */}
       <div className="text-center space-y-2 mb-8">

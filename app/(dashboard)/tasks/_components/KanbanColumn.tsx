@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { Check, Plus, Trash2 } from "lucide-react";
 import { Droppable } from "@hello-pangea/dnd";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
@@ -16,6 +16,7 @@ import TaskModal from "./TaskModal";
 import ConfirmDialog from "../../_components/ConfirmDialog";
 import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { EmptyState } from "../../_components/EmptyState";
 
 interface Props {
   title: string;
@@ -94,23 +95,40 @@ const KanbanColumn = ({ title, id, color }: Props) => {
       </Dialog>
 
       {/* Droppable Area */}
-      <Droppable droppableId={id}>
-        {(provided, snapshot) => (
-          <div
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            className={cn(
-              "flex flex-col gap-3 flex-1 h-fit min-h-12.5 transition-colors duration-300 rounded-md",
-              snapshot.isDraggingOver && "bg-zinc-200/30 dark:bg-zinc-900/40",
-            )}
-          >
-            {displayTasks.map((task, index) => (
-              <TaskCard key={task.id} task={task} index={index} color={color} />
-            ))}
-            {provided.placeholder}
+      {displayTasks.length ? (
+        <Droppable droppableId={id}>
+          {(provided, snapshot) => (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              className={cn(
+                "flex flex-col gap-3 flex-1 h-fit min-h-12.5 transition-colors duration-300 rounded-md",
+                snapshot.isDraggingOver && "bg-zinc-200/30 dark:bg-zinc-900/40",
+              )}
+            >
+              {displayTasks.map((task, index) => (
+                <TaskCard
+                  key={task.id}
+                  task={task}
+                  index={index}
+                  color={color}
+                />
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      ) : (
+        <div className="flex flex-col items-center justify-center h-full py-8 px-4 text-center border-2 border-dashed border-muted/30 rounded-2xl group hover:border-muted/50 transition-colors">
+          <div className="p-3 rounded-full bg-muted/5 mb-3 group-hover:scale-110 transition-transform">
+            <Check size={20} className="text-muted-foreground/40" />
           </div>
-        )}
-      </Droppable>
+          <p className="text-[11px] font-medium text-muted-foreground/60 leading-tight">
+            Your flow starts here. <br />
+            Drop or add a task.
+          </p>
+        </div>
+      )}
     </div>
   );
 };
