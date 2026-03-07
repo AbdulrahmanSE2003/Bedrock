@@ -8,6 +8,8 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 import { Task } from "@/types/tasks";
+import { EmptyState } from "./EmptyState";
+import { LayoutTemplate } from "lucide-react";
 
 const chartConfig = {
   count: {
@@ -31,7 +33,14 @@ const TaskRadarChart = ({ tasks }: { tasks: Task[] }) => {
   ];
 
   if (tasks.length === 0)
-    return <div className="text-[10px] text-muted-foreground">No data yet</div>;
+    return (
+      <EmptyState
+        icon={LayoutTemplate}
+        title="Tasks"
+        description="Start by syncing your Google Tasks or create a new one."
+        className="p-6 h-full"
+      />
+    );
 
   return (
     <div className="w-full h-full min-h-45">
