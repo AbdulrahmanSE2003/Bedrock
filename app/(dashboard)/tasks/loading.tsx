@@ -1,6 +1,10 @@
-// app/(dashboard)/tasks/loading.tsx
+import { Suspense } from "react";
 import KanbanSkeleton from "./_components/KanbanSkeleton";
 
 export default function Loading() {
-  return <KanbanSkeleton />;
+  return (
+    <Suspense fallback={null}>
+      <KanbanSkeleton />
+    </Suspense>
+  );
 }

@@ -12,12 +12,18 @@ const Page = async() => {
       const tasks = (await fetchAllTasks()) as Task[];
 
 
-  if (!tasks) return <KanbanSkeleton />;
+  if (!tasks) {
+    return (
+      <Suspense fallback={null}>
+        <KanbanSkeleton />
+      </Suspense>
+    );
+  }
   return (
     <div className="flex flex-col overflow-hidden gap-3">
       {/* Wrap everything that might use useSearchParams inside this Suspense
        */}
-      <Suspense fallback={<KanbanSkeleton />}>
+      <Suspense fallback={<Suspense fallback={null}><KanbanSkeleton /></Suspense>}>
         <div className="flex justify-between items-center py-2">
           <PageHeading title="Tasks Board" />
           <div className="flex gap-3">
