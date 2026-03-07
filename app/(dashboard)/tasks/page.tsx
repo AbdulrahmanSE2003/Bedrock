@@ -3,10 +3,10 @@ import ViewMode from "./_components/ViewMode";
 import TasksList from "./_components/TasksList";
 import SortBy from "./_components/SortBy";
 import GoogleTasksFetch from "./_components/GoogleTasksFetch";
-import { fetchAllTasks } from "@/actions/tasks";
-import { Task } from "@/types/tasks";
 import KanbanSkeleton from "./_components/KanbanSkeleton";
 import { Suspense } from "react";
+import { fetchAllTasks } from "@/actions/tasks";
+import { Task } from "@/types/tasks";
 
 const Page = async() => {
       const tasks = (await fetchAllTasks()) as Task[];
