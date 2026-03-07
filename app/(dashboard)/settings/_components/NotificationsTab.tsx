@@ -18,7 +18,7 @@ const NotificationsTab = () => {
         <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/5 rounded-full blur-3xl" />
 
         <CardHeader>
-          <CardTitle>Communication</CardTitle>
+          <CardTitle>Notifications</CardTitle>
           <CardDescription>
             Manage your email and sound preferences.
           </CardDescription>

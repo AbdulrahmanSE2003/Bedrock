@@ -21,9 +21,10 @@ const SettingsPage = async () => {
   const userEmail = session?.user?.email;
   const userName = session?.user?.name;
 
-  const bio = await getUserBio();
+  const bio = (await getUserBio()) || "Small wins lead to big changes.";
 
-  if (!userEmail || !userImage || !userName || !bio) return null;
+  if (!userEmail || !userImage || !userName) return null;
+
   return (
     <div className={``}>
       <PageHeading title="Settings" />
