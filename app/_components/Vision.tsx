@@ -54,7 +54,14 @@ export const Vision = () => {
               </p>
             </motion.div>
           ))}
+
         </div>
+          <motion.p
+              initial={{opacity:0, y:40}}
+              whileInView={{opacity:1 , y:0}}
+              viewport={{ once: true }} 
+              transition={{ duration: 0.6, delay: 1 }}
+              className="mx-auto text-xs text-zinc-400 w-xl text-center">"Bedrock App uses your Google Tasks data solely to visualize and organize your workflow in a Kanban board. We do not store or share your personal data."</motion.p>
       </div>
     </section>
   );
