@@ -1,8 +1,15 @@
 import { getHabits } from "@/actions/supabase/data";
 import HabitCard from "./HabitCard";
+import { EmptyState } from "../../_components/EmptyState";
+import { Zap } from "lucide-react";
+import EmptyHabitsState from "./EmptyHabitsState";
 
 const Habits = async () => {
   const habits = await getHabits();
+
+  if (!habits || habits.length === 0) {
+    return <EmptyHabitsState />;
+  }
 
   return (
     <div>
