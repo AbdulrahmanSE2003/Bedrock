@@ -1,3 +1,4 @@
+import { Task } from "@/types/tasks";
 import { clsx, type ClassValue } from "clsx";
 import { format, subDays } from "date-fns";
 import { twMerge } from "tailwind-merge";

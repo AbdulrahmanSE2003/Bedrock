@@ -1,4 +1,4 @@
-import { Task } from "@/types/tasks";
+import { Task, TaskStatus } from "@/types/tasks";
 import { create } from "zustand";
 
 // export const mockTasks: Task[] = [
@@ -49,7 +49,7 @@ import { create } from "zustand";
 interface TasksInterface {
   tasks: Task[];
   setTasks: (tasks: Task[]) => void;
-  moveTask: (taskId: string, newStatus: string, newIndex: number) => void;
+  moveTask: (taskId: string, newStatus: TaskStatus, newIndex: number) => void;
 }
 
 export const useTaskStore = create<TasksInterface>((set) => ({

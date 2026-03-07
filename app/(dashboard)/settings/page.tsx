@@ -6,6 +6,7 @@ import UserTab from "./_components/UserTab";
 import { auth } from "@/auth";
 import Preferences from "./_components/Preferences";
 import NotificationsTab from "./_components/NotificationsTab";
+import { getUserBio } from "@/actions/settings";
 const tabs = [
   { value: "profile", icon: <User size={16} /> },
   { value: "preferences", icon: <Columns3Cog size={16} /> },
@@ -20,6 +21,9 @@ const SettingsPage = async () => {
   const userEmail = session?.user?.email;
   const userName = session?.user?.name;
 
+  const bio = await getUserBio();
+
+  if (!userEmail || !userImage || !userName || !bio) return null;
   return (
     <div className={``}>
       <PageHeading title="Settings" />
@@ -35,7 +39,12 @@ const SettingsPage = async () => {
           </TabsList>
 
           {/* 1. Profile Content */}
-          <UserTab image={userImage} email={userEmail} name={userName} />
+          <UserTab
+            image={userImage}
+            email={userEmail}
+            name={userName}
+            bio={bio}
+          />
 
           {/* 2. Appearance Content */}
           <Preferences />

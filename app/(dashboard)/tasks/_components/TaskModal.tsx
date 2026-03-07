@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Task } from "@/types/tasks";
+import { Task, TaskPriority, TaskStatus } from "@/types/tasks";
 import { Button } from "@/components/ui/button";
 import { Trash2, Save, Edit } from "lucide-react";
 import { useRef, useState } from "react";
@@ -25,11 +25,11 @@ import { createTask, deleteTask, updateTask } from "@/actions/tasks";
 import { bell } from "@/lib/utils";
 
 const TaskModal = ({ task, col }: { task?: Task; col?: string }) => {
-  const [priority, setPriority] = useState(task?.priority || "low");
+  const [priority, setPriority] = useState<TaskPriority>(
+    task?.priority || "low",
+  );
   const [status, setStatus] = useState(task?.status || col || "backlog");
   const [title, setTitle] = useState(task?.title || "");
-
-  console.log(task);
 
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -38,14 +38,14 @@ const TaskModal = ({ task, col }: { task?: Task; col?: string }) => {
       toast.warning("Please enter needed fields.");
       return;
     }
-    const newTitle = formData.get("title");
-    const newPriority = formData.get("priority");
-    const newStatus = formData.get("status");
+    const newTitle = formData.get("title") as string;
+    const newPriority = formData.get("priority") as TaskPriority;
+    const newStatus = formData.get("status") as TaskStatus;
     let res;
 
     // Handling creating update if existing task passed to modal
     if (task) {
-      const id = formData.get("id");
+      const id = formData.get("id") as string;
       res = await updateTask(id, newTitle, newPriority, newStatus);
     } else {
       res = await createTask(newTitle, newPriority, newStatus);
@@ -122,7 +122,10 @@ const TaskModal = ({ task, col }: { task?: Task; col?: string }) => {
                 Priority Level
               </Label>
               <input type="hidden" name="priority" value={priority} />
-              <Select value={priority} onValueChange={setPriority}>
+              <Select
+                value={priority}
+                onValueChange={(value) => setPriority(value as TaskPriority)}
+              >
                 {" "}
                 <SelectTrigger className="h-11 w-full bg-muted border-none shadow-inner capitalize">
                   <SelectValue placeholder="Select priority" />

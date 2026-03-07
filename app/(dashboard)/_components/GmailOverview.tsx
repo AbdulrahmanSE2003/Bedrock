@@ -1,4 +1,3 @@
-import { unstable_noStore as noStore } from "next/cache";
 import { Inbox } from "lucide-react";
 import CardHeading from "./CardHeading";
 import { fetchRecentEmails } from "@/actions/gmail";
@@ -7,7 +6,6 @@ import MailsList from "./MailsList";
 export const revalidate = 900;
 
 const GmailOverview = async () => {
-  // noStore();
   const mails = await fetchRecentEmails();
 
   return (

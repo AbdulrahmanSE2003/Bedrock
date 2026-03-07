@@ -7,7 +7,6 @@ import PageHeading from "@/app/_components/PageHeading";
 import PomodoroWidget from "@/app/(dashboard)/_components/PomodoroWidget";
 import TimeProgress from "@/app/(dashboard)/_components/TimeProgress";
 import { auth } from "@/auth";
-import { ChartBarIcon, Command } from "lucide-react";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { TaskRadialChart } from "../_components/TaskRadialChart";
@@ -16,7 +15,6 @@ const page = async () => {
   const session = await auth();
 
   if (!session?.user) redirect("/");
-
   return (
     <div>
       {/* Dashboard Intro */}

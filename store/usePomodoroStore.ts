@@ -31,9 +31,8 @@ export const usePomodoroStore = create<PomodoroState>((set, get) => ({
   },
 
   playAmbient: (soundName: string) => {
-    get().stopAmbient(); // تنظيف أي صوت شغال
+    get().stopAmbient();
     if (soundName !== "default" && soundName !== "white") {
-      // عدل حسب مسمياتك
       ambientAudio = new Audio(`/sounds/${soundName}.wav`);
       ambientAudio.loop = true;
       ambientAudio

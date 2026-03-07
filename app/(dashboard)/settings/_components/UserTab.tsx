@@ -22,21 +22,23 @@ const UserTab = ({
   image,
   email,
   name,
+  bio,
 }: {
   image: string;
   email: string;
   name: string;
+  bio: string;
 }) => {
   const { data: session, update } = useSession();
-
-  console.log(session);
 
   const handleUserData = async (formData: FormData) => {
     const newName = formData.get("userName") as string;
     const newBio = formData.get("bio") as string;
 
-    if (!newName || !newBio) return toast.error("Please enter valid data.");
-    if (newName === name) return toast.error("Try a different name.");
+    if (!newName || !newBio) {
+      toast.error("Please enter valid data.");
+      return;
+    }
 
     const res = await updateUserSettings(newName, newBio);
 
@@ -48,6 +50,7 @@ const UserTab = ({
         },
       });
       toast.success(res.success);
+      return;
     }
   };
 
@@ -125,7 +128,7 @@ const UserTab = ({
                 name="bio"
                 className="w-full min-h-24 p-3 rounded-md bg-muted/50 border-none shadow-inner text-sm focus-visible:ring-1 focus-visible:ring-ring outline-none resize-none transition-all"
                 placeholder="Tell us a little about yourself..."
-                defaultValue="Productivity enthusiast and Zorin OS lover."
+                defaultValue={bio}
               />
             </div>
           </CardContent>

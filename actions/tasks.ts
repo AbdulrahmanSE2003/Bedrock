@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 
 export async function fetchGoogleTasks() {
   const session = await auth();
-  // @ts-ignore
+
   const token = session?.accessToken;
 
   if (!token) {
@@ -43,9 +43,9 @@ export async function fetchGoogleTasks() {
       listName: listsData.items[0].title,
       tasks: tasksData.items || [],
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error("Google Tasks API Error:", error);
-    return { error: error.message };
+    return { error: "Syncing failed." };
   }
 }
 
@@ -56,7 +56,10 @@ export async function fetchAllTasks() {
   if (!userId) {
     return { error: "You must be logged in" };
   }
-  const { data: tasks, error } = await supabaseAdmin.from("tasks").select("*");
+  const { data: tasks, error } = await supabaseAdmin
+    .from("tasks")
+    .select("*")
+    .eq("user_id", session.user?.id);
 
   if (error) {
     console.error(error);

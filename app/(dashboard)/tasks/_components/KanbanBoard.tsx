@@ -5,6 +5,7 @@ import KanbanColumn from "./KanbanColumn";
 import { useEffect, useState } from "react";
 import { useTaskStore } from "@/store/useTaskStore";
 import { changeStatus } from "@/actions/tasks";
+import { TaskStatus } from "@/types/tasks";
 
 const columns = [
   { title: "backlog", className: "bg-zinc-100/50 dark:bg-zinc-800/20" },
@@ -18,6 +19,7 @@ const KanbanBoard = () => {
   const { moveTask } = useTaskStore();
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     setEnabled(true);
   }, []);
 
@@ -32,10 +34,14 @@ const KanbanBoard = () => {
     )
       return;
 
-    moveTask(draggableId, destination.droppableId, destination.index);
+    moveTask(
+      draggableId,
+      destination.droppableId as TaskStatus,
+      destination.index,
+    );
 
     if (draggableId || destination.droppableId) {
-      const res = await changeStatus(draggableId, destination.droppableId);
+      await changeStatus(draggableId, destination.droppableId as TaskStatus);
     }
   };
 

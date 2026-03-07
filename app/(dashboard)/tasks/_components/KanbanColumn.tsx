@@ -8,13 +8,7 @@ import { toast } from "sonner";
 
 import { useTaskStore } from "@/store/useTaskStore";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import {
-  bell,
-  cn,
-  getSortedTasks,
-  priorityOrder,
-  sourceOrder,
-} from "@/lib/utils";
+import { bell, cn, getSortedTasks } from "@/lib/utils";
 import { bulkDelete } from "@/actions/tasks";
 
 import TaskCard from "./TaskCard";
@@ -106,7 +100,7 @@ const KanbanColumn = ({ title, id, color }: Props) => {
             {...provided.droppableProps}
             ref={provided.innerRef}
             className={cn(
-              "flex flex-col gap-3 flex-1 h-fit min-h-[50px] transition-colors duration-300 rounded-md",
+              "flex flex-col gap-3 flex-1 h-fit min-h-12.5 transition-colors duration-300 rounded-md",
               snapshot.isDraggingOver && "bg-zinc-200/30 dark:bg-zinc-900/40",
             )}
           >

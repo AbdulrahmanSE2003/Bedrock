@@ -18,8 +18,6 @@ const PomodoroControls = () => {
   const { timerBg, timerSound, setTimerBg, setTimerSound } = usePreferences();
   const { isActive } = usePomodoroStore();
 
-  console.log(timerSound);
-
   const backgroundKeys = Object.keys(BACKGROUND_MAP);
 
   return (
@@ -43,7 +41,7 @@ const PomodoroControls = () => {
           </SelectContent>
         </Select>
 
-        <div className="w-[1px] h-6 bg-zinc-300 dark:bg-zinc-700 self-center" />
+        <div className="w-px h-6 bg-zinc-300 dark:bg-zinc-700 self-center" />
 
         {/* Ambient Sound Selector */}
         <Select

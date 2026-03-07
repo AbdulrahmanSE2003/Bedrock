@@ -20,7 +20,7 @@ const HabitCard = ({ habit }: HabitCardProps) => {
 
   const [optimisticLogs, addOptimisticLog] = useOptimistic(
     habit.habit_logs,
-    (state, newLog: any) => [...state, newLog],
+    (state, newLog: { id: string; completed_at: string }) => [...state, newLog],
   );
 
   const isTodayChecked = optimisticLogs.some((log) =>
@@ -47,6 +47,7 @@ const HabitCard = ({ habit }: HabitCardProps) => {
           bell();
         }
       } catch (err) {
+        console.error(err);
         toast.error("Something went wrong with the connection.");
       }
     });

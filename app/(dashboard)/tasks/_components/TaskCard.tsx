@@ -28,7 +28,9 @@ const TaskCard = ({
   index: number;
   color: string;
 }) => {
-  const isOverdue = new Date(task.due_date) < new Date();
+  const isOverdue = task.due_date
+    ? new Date(task?.due_date) < new Date()
+    : false;
 
   const handleCheck = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
