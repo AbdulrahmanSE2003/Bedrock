@@ -27,7 +27,7 @@ export const EmptyState = ({
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       className={cn(
-        "flex flex-col items-center justify-center py-16 px-6 border-2 border-dashed border-muted/50 rounded-[2rem] bg-muted/5 transition-all w-full",
+        "flex flex-col items-center justify-center py-16 px-6 rounded-[2rem] bg-muted/5 transition-all w-full",
         className,
       )}
     >

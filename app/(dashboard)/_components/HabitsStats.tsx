@@ -3,10 +3,13 @@ import CardHeading from "./CardHeading";
 import { getHabits } from "@/actions/supabase/data";
 import { Habit } from "@/types/habits";
 import HabitWidget from "./HabitWidget";
+import EmptyHabitState from "../habits/_components/EmptyHabitState";
 
 const HabitsStats = async () => {
   const habits: Habit[] = await getHabits();
   const firstThreeHabits = habits.slice(0, 3);
+
+  if (!habits.length) return <EmptyHabitState />;
 
   return (
     <div

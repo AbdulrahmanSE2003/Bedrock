@@ -7,6 +7,7 @@ type HabitWidgetProps = {
 
 const HabitWidget = ({ habit }: HabitWidgetProps) => {
   const count = habit.habit_logs.length;
+
   return (
     <div
       key={habit.id}
