@@ -3,9 +3,16 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
+import Image from "next/image";
 import Link from "next/link";
+import lightPreview from '@/public/preview-light.png' 
+import darkPreview from '@/public/preview-dark.png' 
+import { useTheme } from "next-themes";
+
 
 export default function HeroSection() {
+  const {theme} = useTheme()
+  const previewImage = theme=== 'dark' ? darkPreview : lightPreview
   return (
     <section
       id="hero"
@@ -82,8 +89,8 @@ export default function HeroSection() {
         className="relative mt-20 w-full max-w-6xl aspect-video rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] dark:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)] mx-auto overflow-hidden"
       >
         <div className="absolute inset-0 bg-linear-to-br from-zinc-50/50 to-white dark:from-zinc-900 dark:to-[#030303] flex items-center justify-center">
-          <div className="text-foreground dark:text-zinc-800 font-black text-4xl tracking-tighter opacity-20">
-            APP PREVIEW
+          <div className="relative w-full h-full bg-linear-to-br from-zinc-50/50 to-white dark:from-zinc-900 dark:to-[#030303]">
+            <Image src={previewImage} alt="Application Preview" fill priority className="object-cover object-top opacity-90 dark:opacity-100 transition-opacity" />
           </div>
         </div>
       </motion.div>
