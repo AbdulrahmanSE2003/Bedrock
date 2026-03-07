@@ -6,15 +6,15 @@ export function Footer() {
     <footer className="py-20 mx-auto w-11/12 bg-background border-t border-zinc-400/50 dark:border-zinc-900 px-6">
       <div className=" mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
         <div className="space-y-6 max-w-sm">
-          <a
-            href={"#hero"}
+          <Link
+            href={"/"}
             className={`flex w-fit justify-start items-center gap-3`}
           >
             <Logo />
             <h2 className="text-2xl font-black tracking-tighter">
               Bedrock<span className="text-zinc-400">.</span>
             </h2>
-          </a>
+          </Link>
           <p className="text-sm text-zinc-500 leading-relaxed">
             The minimalist workspace for developers.
             <br /> Built for speed, privacy, and focus.
@@ -28,20 +28,20 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 text-sm font-medium">
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="changeLog"
                   className="hover:text-primary/75 transition-colors duration-200"
                 >
                   Changelog
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="privacy"
                   className="hover:text-primary/75 transition-colors duration-200"
                 >
-                  Documentation
-                </a>
+                  Privacy
+                </Link>
               </li>
             </ul>
           </div>
@@ -51,13 +51,30 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 text-sm font-medium">
               <li>
-                <a href="#" className="hover:text-primary transition-colors">
-                  Twitter / X
+                <a
+                  target="_blank"
+                  href="https://www.instagram.com/_abdulr_hman/"
+                  className="hover:text-primary transition-colors"
+                >
+                  Instagram
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-primary transition-colors">
+                <a
+                  target="_blank"
+                  href="https://github.com/AbdulrahmanSE2003"
+                  className="hover:text-primary transition-colors"
+                >
                   GitHub
+                </a>
+              </li>
+              <li>
+                <a
+                  target="_blank"
+                  href="https://mnmlst-nine.vercel.app/"
+                  className="hover:text-primary transition-colors"
+                >
+                  Portfolio{" "}
                 </a>
               </li>
             </ul>

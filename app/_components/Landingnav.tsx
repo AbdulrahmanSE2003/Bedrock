@@ -44,10 +44,10 @@ export const LandingNav = () => {
         </Link>
 
         <div className="hidden md:flex items-center gap-10">
-          {['home', "privacy"].map((item) => (
+          {["home", "privacy", "changeLog"].map((item) => (
             <Link
               key={item}
-              href={`${item=== 'home' ? '/' : item}`}
+              href={`${item === "home" ? "/" : item}`}
               className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 hover:text-black dark:hover:text-white transition-colors"
             >
               {item}
