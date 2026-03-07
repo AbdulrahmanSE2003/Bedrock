@@ -149,7 +149,7 @@ export async function createTask(
       return;
     }
 
-    // revalidatePath("/tasks");
+    revalidatePath("/tasks");
     return { success: true };
   } catch (error) {
     console.error(error);
